@@ -1,0 +1,17 @@
+{
+  "name": "generic-conversation-bot",
+  "version": "0.1.0",
+  "description": "The simple conversion bot with ability to read conversation files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "conversation",
+    "dialogue",
+    "tree",
+    "bot"
+  ],
+  "author": "Dawid Płocki",
+  "license": "ISC"
+}
