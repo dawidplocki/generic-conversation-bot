@@ -17,8 +17,10 @@ node index.js
 
 ### Development
 
+The project is using [nodemon](https://nodemon.io/).
+
 ```
 npm install
-node index.js
+npm run dev
 ```
 
