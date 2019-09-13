@@ -10,7 +10,7 @@ The simple conversation bot with ability of reading the dialogue tree from file.
 
 ### Usage
 
-```
+```bash
 npm ci
 node index.js
 ```
@@ -19,8 +19,7 @@ node index.js
 
 The project is using [nodemon](https://nodemon.io/).
 
-```
+```bash
 npm install
 npm run dev
 ```
-
