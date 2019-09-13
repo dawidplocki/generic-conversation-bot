@@ -16,10 +16,22 @@ function waitForActivation(activationMessage, param) {
 }
 
 
+function selectOption(replays) {
+
+    return function* (message) {
+        if (replays.hasOwnProperty(message)) {
+            yield *replays[message];
+        }
+
+        return;
+    }
+}
+
+
 class Bot {
     constructor(initialState) {
         this.state = initialState;
-        this.respose = null;
+        this.response = null;
     }
 
     setState(state) {
@@ -27,7 +39,7 @@ class Bot {
     }
 
     setResponse(response) {
-        this.respose = response;
+        this.response = response;
     }
 
     message(message) {
@@ -35,12 +47,12 @@ class Bot {
             action(this);
         }
 
-        return this.respose;
+        return this.response;
     }
 }
 
 
-function buildBot() {
+function buildGreetingsBot() {
     return new Bot(waitForActivation('hi', [
         bot => bot.setResponse("Hello"),
         bot => bot.setState(null)
@@ -48,17 +60,36 @@ function buildBot() {
 }
 
 
+function buildMorpheusBot() {
+    return new Bot(waitForActivation('hi', [
+        bot => bot.setResponse("Choose the pill: red or blue"),
+        bot => bot.setState(selectOption({
+            'blue': [bot => bot.setResponse("The story ends, you wake up in your bed and believe whatever you want to believe")],
+            'red': [bot => bot.setResponse("You stay in Wonderland, and I show you how deep the rabbit hole goes")]
+        }))
+    ]));
+}
+
+
 let bot;
 
 // Waiting for "hi"
-bot = buildBot();
+bot = buildGreetingsBot();
 assert.strictEqual(bot.message("no-Hi"), null, "Bot should ignore everything except 'hi'");
 
-bot = buildBot();
+bot = buildGreetingsBot();
 assert.notStrictEqual(bot.message("hi"), null, "Bot should response with 'hi' (no matter the way of write)");
 
-bot = buildBot();
+bot = buildGreetingsBot();
 assert.notStrictEqual(bot.message("Hi"), null, "Bot should response with 'hi' (no matter the way of write)");
 
+// Simple dialogue tree
+bot = buildMorpheusBot();
+assert.strictEqual(bot.message("hi"), "Choose the pill: red or blue", "Bot should ask about pill");
+assert.strictEqual(bot.message("blue"), "The story ends, you wake up in your bed and believe whatever you want to believe", "Bot should acknowledge the choice of blue pill");
+
+bot = buildMorpheusBot();
+assert.strictEqual(bot.message("hi"), "Choose the pill: red or blue", "Bot should ask about pill");
+assert.strictEqual(bot.message("red"), "You stay in Wonderland, and I show you how deep the rabbit hole goes", "Bot should acknowledge the choice of red pill");
 
 console.log("everything ok");
