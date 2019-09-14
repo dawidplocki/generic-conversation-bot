@@ -1,35 +1,8 @@
 const assert = require('assert');
 
+
 function staySilence() {
     return response(null);
-}
-
-
-function waitForActivation(activationMessage, param) {
-    const actions = (typeof param === 'function')
-        ? [param]
-        : param;
-
-    return function *(message) {
-        if (message !== activationMessage) {
-            yield staySilence();
-            return;
-        }
-
-        yield* actions;
-    }
-}
-
-
-function selectOption(replays) {
-
-    return function* (message) {
-        if (replays.hasOwnProperty(message)) {
-            yield* replays[message];
-        }
-
-        return;
-    }
 }
 
 
@@ -38,14 +11,65 @@ function response(message) {
 }
 
 
+function setState(state) {
+    return bot => bot.setState(state);
+}
+
+
+class WaitForActivationState {
+
+    constructor(activationMessage, actions) {
+        this.activationMessage = activationMessage;
+        this.actions = (typeof actions === 'function')
+            ? [actions]
+            : actions;
+    }
+
+    *beforeMessage() {}
+
+    *analise(message) {
+        if (message !== this.activationMessage) {
+            yield staySilence();
+            return;
+        }
+
+        yield* this.actions;
+    }
+}
+
+
+class ChooseState {
+
+    constructor(chooseMessage, replays) {
+        this.chooseMessage = chooseMessage;
+        this.replays = replays;
+    }
+
+    *beforeMessage() {
+        yield response(this.chooseMessage);
+    }
+
+    *analise(message) {
+        if (this.replays.hasOwnProperty(message)) {
+            yield* this.replays[message];
+        }
+
+        return;
+    }
+}
+
+
 class Bot {
+
     constructor(initialState) {
         this.initialState = initialState;
         this.reset();
+        this.actionsSource = [];
     }
 
     setState(state) {
         this.state = state;
+        this.actionsSource.push(state.beforeMessage());
     }
 
     setResponse(response) {
@@ -57,8 +81,15 @@ class Bot {
         this.response = null;
     }
 
+    *nextAction() {
+        while(this.actionsSource.length > 0) {
+            yield *(this.actionsSource.shift());
+        }
+    }
+
     message(message) {
-        for (let action of this.state(message.toLowerCase())) {
+        this.actionsSource.push(this.state.analise(message.toLowerCase()));
+        for (let action of this.nextAction()) {
             action(this);
         }
 
@@ -73,17 +104,14 @@ function endOfConversation() {
 
 
 function buildGreetingsBot() {
-    return new Bot(waitForActivation('hi', [
-        response("Hello"),
-        bot => bot.setState(null)
-    ]));
+    return new Bot(new WaitForActivationState('hi', [response("Hello")]));
 }
 
 
 function buildMorpheusBot() {
-    return new Bot(waitForActivation('hi', [
-        response("Choose the pill: red or blue"),
-        bot => bot.setState(selectOption({
+    const choosePillState = new ChooseState(
+        "Choose the pill: red or blue",
+        {
             'blue': [
                 response("The story ends, you wake up in your bed and believe whatever you want to believe"),
                 endOfConversation()
@@ -92,8 +120,9 @@ function buildMorpheusBot() {
                 response("You stay in Wonderland, and I show you how deep the rabbit hole goes"),
                 endOfConversation()
             ]
-        }))
-    ]));
+        });
+
+    return new Bot(new WaitForActivationState('hi', [setState(choosePillState)]));
 }
 
 
@@ -124,7 +153,6 @@ assertBotResponse(bot, "red", "You stay in Wonderland, and I show you how deep t
 bot = buildMorpheusBot();
 bot.message("hi");
 bot.message("red");
-
 assertBotResponse(bot, "no-Hi", null);
 assertBotResponse(bot, "hi", "Choose the pill: red or blue");
 
