@@ -1,17 +1,22 @@
 const assert = require('assert');
 
+function staySilence() {
+    return response(null);
+}
+
 
 function waitForActivation(activationMessage, param) {
     const actions = (typeof param === 'function')
         ? [param]
         : param;
 
-    return function* (message) {
-        if (message == activationMessage) {
-            yield* actions;
+    return function *(message) {
+        if (message !== activationMessage) {
+            yield staySilence();
+            return;
         }
 
-        return;
+        yield* actions;
     }
 }
 
@@ -20,7 +25,7 @@ function selectOption(replays) {
 
     return function* (message) {
         if (replays.hasOwnProperty(message)) {
-            yield *replays[message];
+            yield* replays[message];
         }
 
         return;
@@ -35,8 +40,8 @@ function response(message) {
 
 class Bot {
     constructor(initialState) {
-        this.state = initialState;
-        this.response = null;
+        this.initialState = initialState;
+        this.reset();
     }
 
     setState(state) {
@@ -47,6 +52,11 @@ class Bot {
         this.response = response;
     }
 
+    reset() {
+        this.state = this.initialState;
+        this.response = null;
+    }
+
     message(message) {
         for (let action of this.state(message.toLowerCase())) {
             action(this);
@@ -54,6 +64,11 @@ class Bot {
 
         return this.response;
     }
+}
+
+
+function endOfConversation() {
+    return bot => bot.setState(bot.initialState);
 }
 
 
@@ -69,32 +84,48 @@ function buildMorpheusBot() {
     return new Bot(waitForActivation('hi', [
         response("Choose the pill: red or blue"),
         bot => bot.setState(selectOption({
-            'blue': [response("The story ends, you wake up in your bed and believe whatever you want to believe")],
-            'red': [response("You stay in Wonderland, and I show you how deep the rabbit hole goes")]
+            'blue': [
+                response("The story ends, you wake up in your bed and believe whatever you want to believe"),
+                endOfConversation()
+            ],
+            'red': [
+                response("You stay in Wonderland, and I show you how deep the rabbit hole goes"),
+                endOfConversation()
+            ]
         }))
     ]));
 }
 
 
-let bot;
+function assertBotResponse(bot, message, exceptedRespose, notEqual = false) {
+    const response = bot.message(message);
+    const [assertion, should] = (notEqual !== true)
+        ? [assert.strictEqual, 'should']
+        : [assert.notStrictEqual, 'shouldn\'t'];
+
+    assertion(response, exceptedRespose, `Bot ${should} response with '${exceptedRespose}', recived '${response}'`);
+}
 
 // Waiting for "hi"
-bot = buildGreetingsBot();
-assert.strictEqual(bot.message("no-Hi"), null, "Bot should ignore everything except 'hi'");
-
-bot = buildGreetingsBot();
-assert.notStrictEqual(bot.message("hi"), null, "Bot should response with 'hi' (no matter the way of write)");
-
-bot = buildGreetingsBot();
-assert.notStrictEqual(bot.message("Hi"), null, "Bot should response with 'hi' (no matter the way of write)");
+assertBotResponse(buildGreetingsBot(), "no-Hi", null);
+assertBotResponse(buildGreetingsBot(), "hi", null, true);
+assertBotResponse(buildGreetingsBot(), "Hi", null, true);
 
 // Simple dialogue tree
+let bot;
 bot = buildMorpheusBot();
-assert.strictEqual(bot.message("hi"), "Choose the pill: red or blue", "Bot should ask about pill");
-assert.strictEqual(bot.message("blue"), "The story ends, you wake up in your bed and believe whatever you want to believe", "Bot should acknowledge the choice of blue pill");
+assertBotResponse(bot, "hi", "Choose the pill: red or blue");
+assertBotResponse(bot, "blue", "The story ends, you wake up in your bed and believe whatever you want to believe");
 
 bot = buildMorpheusBot();
-assert.strictEqual(bot.message("hi"), "Choose the pill: red or blue", "Bot should ask about pill");
-assert.strictEqual(bot.message("red"), "You stay in Wonderland, and I show you how deep the rabbit hole goes", "Bot should acknowledge the choice of red pill");
+assertBotResponse(bot, "hi", "Choose the pill: red or blue");
+assertBotResponse(bot, "red", "You stay in Wonderland, and I show you how deep the rabbit hole goes");
+
+bot = buildMorpheusBot();
+bot.message("hi");
+bot.message("red");
+
+assertBotResponse(bot, "no-Hi", null);
+assertBotResponse(bot, "hi", "Choose the pill: red or blue");
 
 console.log("everything ok");
