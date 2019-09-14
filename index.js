@@ -28,6 +28,11 @@ function selectOption(replays) {
 }
 
 
+function response(message) {
+    return bot => bot.setResponse(message);
+}
+
+
 class Bot {
     constructor(initialState) {
         this.state = initialState;
@@ -54,7 +59,7 @@ class Bot {
 
 function buildGreetingsBot() {
     return new Bot(waitForActivation('hi', [
-        bot => bot.setResponse("Hello"),
+        response("Hello"),
         bot => bot.setState(null)
     ]));
 }
@@ -62,10 +67,10 @@ function buildGreetingsBot() {
 
 function buildMorpheusBot() {
     return new Bot(waitForActivation('hi', [
-        bot => bot.setResponse("Choose the pill: red or blue"),
+        response("Choose the pill: red or blue"),
         bot => bot.setState(selectOption({
-            'blue': [bot => bot.setResponse("The story ends, you wake up in your bed and believe whatever you want to believe")],
-            'red': [bot => bot.setResponse("You stay in Wonderland, and I show you how deep the rabbit hole goes")]
+            'blue': [response("The story ends, you wake up in your bed and believe whatever you want to believe")],
+            'red': [response("You stay in Wonderland, and I show you how deep the rabbit hole goes")]
         }))
     ]));
 }
