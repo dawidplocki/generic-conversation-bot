@@ -156,4 +156,8 @@ bot.message("red");
 assertBotResponse(bot, "no-Hi", null);
 assertBotResponse(bot, "hi", "Choose the pill: red or blue");
 
+bot = buildMorpheusBot();
+bot.message("hi");
+assertBotResponse(bot, "no idea", "Choose the pill: red or blue");
+
 console.log("everything ok");
