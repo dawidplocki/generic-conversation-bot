@@ -5,7 +5,10 @@ const { assertBotResponse } = require('../utils');
 
 
 function buildGreetingsBot() {
-    return new Bot(new WaitForActivationState('hi', [response("Hello")]));
+    return new Bot(new WaitForActivationState({
+            activation: 'hi',
+            actions: [response("Hello")]
+        }));
 }
 
 

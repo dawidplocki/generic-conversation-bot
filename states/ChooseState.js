@@ -2,13 +2,13 @@ const { response } = require('../actions');
 
 class ChooseState {
 
-    constructor(chooseMessage, replays) {
-        this.chooseMessage = chooseMessage;
+    constructor({ initText, replays }) {
+        this.initText = initText;
         this.replays = replays;
     }
 
     *beforeMessage() {
-        yield response(this.chooseMessage);
+        yield response(this.initText);
     }
 
     *analise(message) {

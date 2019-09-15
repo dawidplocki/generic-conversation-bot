@@ -2,8 +2,8 @@ const { staySilence } = require('../actions');
 
 class WaitForActivationState {
 
-    constructor(activationMessage, actions) {
-        this.activationMessage = activationMessage;
+    constructor({activation, actions}) {
+        this.activation = activation;
         this.actions = (typeof actions === 'function')
             ? [actions]
             : actions;
@@ -13,7 +13,7 @@ class WaitForActivationState {
     }
 
     *analise(message) {
-        if (message !== this.activationMessage) {
+        if (message !== this.activation) {
             yield staySilence();
             return;
         }
