@@ -30,6 +30,7 @@ class Bot {
         for (let action of this.nextAction()) {
             action(this);
         }
+
         return this.response;
     }
 }
