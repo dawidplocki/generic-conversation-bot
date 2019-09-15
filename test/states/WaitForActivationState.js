@@ -1,7 +1,7 @@
-const Bot = require('../Bot');
-const WaitForActivationState = require('../states/WaitForActivationState');
-const { response } = require('../actions');
-const { assertBotResponse } = require('./utils');
+const Bot = require('../../Bot');
+const WaitForActivationState = require('../../states/WaitForActivationState');
+const { response } = require('../../actions');
+const { assertBotResponse } = require('../utils');
 
 
 function buildGreetingsBot() {

@@ -14,9 +14,10 @@ class ChooseState {
     *analise(message) {
         if (this.replays.hasOwnProperty(message)) {
             yield* this.replays[message];
+            return 
         }
 
-        return;
+        yield* this.beforeMessage();
     }
 }
 
