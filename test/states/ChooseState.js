@@ -9,7 +9,7 @@ function buildMorpheusBot() {
         'start': new ChooseState({
                 initText: "Choose the pill: red or blue",
                 replays: {
-                    'blue': [
+                    'BLUE': [
                         response("The story ends, you wake up in your bed and believe whatever you want to believe")
                     ],
                     'red': [

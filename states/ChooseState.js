@@ -4,7 +4,10 @@ class ChooseState {
 
     constructor({ initText, replays }) {
         this.initText = initText;
-        this.replays = replays;
+        this.replays = Object.keys(replays).reduce(function(result, key) {
+                result[key.toLowerCase()] = replays[key];
+                return result;
+            }, {});
     }
 
     *beforeMessage() {

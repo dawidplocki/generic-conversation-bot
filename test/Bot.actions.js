@@ -27,19 +27,19 @@ it('should run all analise actions and beforeMessage actions', function() {
     let correctYieldCounter = 0;
     let incorrectYieldCounter = 0;
 
-    const expectedYieldCount = 12;
+    const expectedYieldCount = 15;
     const bot = new Bot({
         'start': {
             *beforeMessage() {
-                yield () => incorrectYieldCounter++;
+                yield () => correctYieldCounter += 1;
             },
 
             *analise() {
                 yield () => correctYieldCounter += 2;
-                yield () => correctYieldCounter += 3;
+                yield () => correctYieldCounter += 4;
                 yield bot => bot.setState({
                     *beforeMessage() {
-                        yield () => correctYieldCounter += 7;
+                        yield () => correctYieldCounter += 8;
                     },
 
                     *analise() {

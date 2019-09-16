@@ -2,12 +2,10 @@ const { INIT_STATE } = require('./Bot.Consts');
 
 
 class Bot {
-    constructor(stateMap) {
-        this.stateMap = stateMap;
-        this.initialState = stateMap[INIT_STATE];
-        this.state = stateMap[INIT_STATE];
-        this.reset();
+    constructor(statesMap) {
         this.actionsSource = [];
+        this.statesMap = statesMap;
+        this.reset();
     }
 
     setState(state) {
@@ -15,12 +13,16 @@ class Bot {
         this.actionsSource.push(state.beforeMessage());
     }
 
+    jumpToState(stateLabel) {
+        this.setState(this.statesMap[stateLabel]);
+    }
+
     setResponse(response) {
         this.response = response;
     }
 
     reset() {
-        this.state = this.initialState;
+        this.jumpToState(INIT_STATE);
         this.response = null;
     }
 
