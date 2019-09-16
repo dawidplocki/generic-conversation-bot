@@ -1,6 +1,11 @@
+const { INIT_STATE } = require('./Bot.Consts');
+
+
 class Bot {
-    constructor(initialState) {
-        this.initialState = initialState;
+    constructor(stateMap) {
+        this.stateMap = stateMap;
+        this.initialState = stateMap[INIT_STATE];
+        this.state = stateMap[INIT_STATE];
         this.reset();
         this.actionsSource = [];
     }

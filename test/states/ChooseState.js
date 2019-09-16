@@ -5,17 +5,19 @@ const { response } = require('../../actions');
 
 
 function buildMorpheusBot() {
-    return new Bot(new ChooseState({
-            initText: "Choose the pill: red or blue",
-            replays: {
-                'blue': [
-                    response("The story ends, you wake up in your bed and believe whatever you want to believe")
-                ],
-                'red': [
-                    response("You stay in Wonderland, and I show you how deep the rabbit hole goes")
-                ]
-            }
-        }));
+    return new Bot({
+        'start': new ChooseState({
+                initText: "Choose the pill: red or blue",
+                replays: {
+                    'blue': [
+                        response("The story ends, you wake up in your bed and believe whatever you want to believe")
+                    ],
+                    'red': [
+                        response("You stay in Wonderland, and I show you how deep the rabbit hole goes")
+                    ]
+                }
+            })
+    });
 }
 
 

@@ -5,13 +5,15 @@ it('should run all analise actions', function() {
     let yieldCounter = 0;
     const expectedYieldCount = 10;
     const bot = new Bot({
-        *beforeMessage() {
-        },
+        'start': {
+            *beforeMessage() {
+            },
 
-        *analise() {
-            yield () => yieldCounter += 2;
-            yield () => yieldCounter += 3;
-            yield () => yieldCounter += 5;
+            *analise() {
+                yield () => yieldCounter += 2;
+                yield () => yieldCounter += 3;
+                yield () => yieldCounter += 5;
+            }
         }
     });
 
@@ -24,25 +26,27 @@ it('should run all analise actions', function() {
 it('should run all analise actions and beforeMessage actions', function() {
     let correctYieldCounter = 0;
     let incorrectYieldCounter = 0;
+
     const expectedYieldCount = 12;
-
     const bot = new Bot({
-        *beforeMessage() {
-            yield () => incorrectYieldCounter++;
-        },
+        'start': {
+            *beforeMessage() {
+                yield () => incorrectYieldCounter++;
+            },
 
-        *analise() {
-            yield () => correctYieldCounter += 2;
-            yield () => correctYieldCounter += 3;
-            yield bot => bot.setState({
-                *beforeMessage() {
-                    yield () => correctYieldCounter += 7;
-                },
+            *analise() {
+                yield () => correctYieldCounter += 2;
+                yield () => correctYieldCounter += 3;
+                yield bot => bot.setState({
+                    *beforeMessage() {
+                        yield () => correctYieldCounter += 7;
+                    },
 
-                *analise() {
-                    yield () => incorrectYieldCounter++;
-                }
-            });
+                    *analise() {
+                        yield () => incorrectYieldCounter++;
+                    }
+                });
+            }
         }
     });
 
