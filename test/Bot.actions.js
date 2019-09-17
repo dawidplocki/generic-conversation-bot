@@ -1,5 +1,6 @@
 const Assert = require('assert');
 const Bot = require('../Bot');
+const { setState } = require('../actions');
 
 it('should run all analise actions', function() {
     let yieldCounter = 0;
@@ -22,7 +23,6 @@ it('should run all analise actions', function() {
     Assert.strictEqual(yieldCounter, expectedYieldCount, `All actions after message should be called (result: ${yieldCounter}/${expectedYieldCount})`);
 });
 
-
 it('should run all analise actions and beforeMessage actions', function() {
     let correctYieldCounter = 0;
     let incorrectYieldCounter = 0;
@@ -37,7 +37,7 @@ it('should run all analise actions and beforeMessage actions', function() {
             *analise() {
                 yield () => correctYieldCounter += 2;
                 yield () => correctYieldCounter += 4;
-                yield bot => bot.setState({
+                yield setState({
                     *beforeMessage() {
                         yield () => correctYieldCounter += 8;
                     },

@@ -1,5 +1,5 @@
 function response(message) {
-    return bot => bot.setResponse(message);
+    return bot => bot.response = message;
 }
 
 module.exports.response = response;
@@ -9,11 +9,11 @@ module.exports.staySilence = function() {
 }
 
 module.exports.setState = function(state) {
-    return bot => bot.setState(state);
+    return bot => bot.state = state;
 }
 
 module.exports.endOfConversation = function() {
-    return bot => bot.setState(bot.initialState);
+    return bot => bot.state = bot.initialState;
 }
 
 module.exports.jumpToState = function(stateName) {
