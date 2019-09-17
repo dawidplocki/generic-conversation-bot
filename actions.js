@@ -12,8 +12,8 @@ module.exports.setState = function(state) {
     return bot => bot.state = state;
 }
 
-module.exports.endOfConversation = function() {
-    return bot => bot.state = bot.initialState;
+module.exports.endConversation = function() {
+    return bot => bot.reset();
 }
 
 module.exports.jumpToState = function(stateName) {

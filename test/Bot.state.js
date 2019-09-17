@@ -2,7 +2,7 @@ const Assert = require('assert');
 const Bot = require('../Bot');
 const WaitForActivationState = require('../states/WaitForActivationState');
 const ChooseState = require('../states/ChooseState');
-const { jumpToState } = require('../actions');
+const { jumpToState, endConversation } = require('../actions');
 const { assertBotResponse } = require('./utils');
 
 
@@ -32,14 +32,14 @@ function buildBot() {
         'B': buildChoose(
             BStateText,
             {
-                'yes': [jumpToState('start')],
+                'yes': [endConversation()],
                 'no': [jumpToState('D')]
             }),
         'C': buildChoose(
             CStateText,
             {
                 'yes': [jumpToState('D')],
-                'no': [jumpToState('start')]
+                'no': [endConversation()]
             }),
         'D': buildChoose(
             DStateText,
@@ -68,4 +68,12 @@ it('should allow multiple jumps', function() {
     assertBotResponse(bot, 'hi', AStateText);
     assertBotResponse(bot, 'B', BStateText);
     assertBotResponse(bot, 'no', DStateText);
+});
+
+it('should jump should allow return to init', function() {
+    const bot = buildBot();
+
+    assertBotResponse(bot, 'hi', AStateText);
+    assertBotResponse(bot, 'B', BStateText);
+    assertBotResponse(bot, 'yes', null);
 });
