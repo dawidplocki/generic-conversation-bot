@@ -35,7 +35,7 @@ it('should offer choice, then response to second option', function() {
     assertBotResponse(bot, "red", "You stay in Wonderland, and I show you how deep the rabbit hole goes");
 });
 
-it('should repeat question if anserw was incorrect', function() {
+it('should repeat question if answer was incorrect', function() {
     const bot = buildMorpheusBot();
 
     bot.message("hi");
