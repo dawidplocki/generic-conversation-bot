@@ -14,7 +14,7 @@ class ChooseState {
         yield response(this.initText);
     }
 
-    *analise(message) {
+    *analyse(message) {
         if (this.replays.hasOwnProperty(message)) {
             yield* this.replays[message];
             return 

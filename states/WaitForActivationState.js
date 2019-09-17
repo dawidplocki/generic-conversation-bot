@@ -12,7 +12,7 @@ class WaitForActivationState {
     *beforeMessage() {
     }
 
-    *analise(message) {
+    *analyse(message) {
         if (message !== this.activation) {
             yield staySilence();
             return;

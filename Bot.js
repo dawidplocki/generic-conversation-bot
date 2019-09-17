@@ -48,7 +48,7 @@ class Bot {
     }
 
     message(message) {
-        this.addAction(this.__state.analise(message.toLowerCase()));
+        this.addAction(this.__state.analyse(message.toLowerCase()));
         for (let action of this.nextAction()) {
             action(this);
         }

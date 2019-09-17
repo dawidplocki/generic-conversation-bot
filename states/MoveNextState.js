@@ -8,7 +8,7 @@ class MoveNextState {
         yield bot => bot.response = this.text;
     }
 
-    *analise() {
+    *analyse() {
         yield* this.actions;
     }
 }
