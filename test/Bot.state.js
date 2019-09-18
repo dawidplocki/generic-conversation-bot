@@ -4,6 +4,7 @@ const WaitForActivationState = require('../states/WaitForActivationState');
 const ChooseState = require('../states/ChooseState');
 const { jumpToState, endConversation } = require('../actions');
 const { assertBotResponse } = require('./utils');
+const { INIT_STATE } = require('../Bot.Consts');
 
 
 function buildChoose(initText, replays) {
@@ -22,29 +23,29 @@ const DStateText = 'Your are in D: This is ending state';
 
 function buildBot() {
     return new Bot({
-        'start': new WaitForActivationState({ activation: 'hi', actions: jumpToState('A') }),
-        'A': buildChoose(
+        [INIT_STATE]: new WaitForActivationState({ activation: 'hi', actions: jumpToState('A') }),
+        A: buildChoose(
             AStateText,
             {
                 'B': [jumpToState('B')],
                 'C': [jumpToState('C')]
             }),
-        'B': buildChoose(
+        B: buildChoose(
             BStateText,
             {
                 'yes': [endConversation()],
                 'no': [jumpToState('D')]
             }),
-        'C': buildChoose(
+        C: buildChoose(
             CStateText,
             {
                 'yes': [jumpToState('D')],
                 'no': [endConversation()]
             }),
-        'D': buildChoose(
+        D: buildChoose(
             DStateText,
             {
-                'ok': [jumpToState('start')]
+                'ok': [jumpToState(INIT_STATE)]
             }
         )
     });

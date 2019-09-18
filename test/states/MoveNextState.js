@@ -2,6 +2,7 @@ const Bot = require('../../Bot');
 const MoveNextState = require('../../states/MoveNextState');
 const { jumpToState, endConversation } = require('../../actions');
 const { assertBotResponse } = require('../utils');
+const { INIT_STATE } = require('../../Bot.Consts');
 
 it('should move to next state no matter the message', function() {
     const textA = 'Hello, you are on beginning';
@@ -9,9 +10,9 @@ it('should move to next state no matter the message', function() {
     const textC = 'You are on C';
 
     const bot = new Bot({
-        'start': new MoveNextState({ text: textA, actions: [jumpToState('first')] }),
-        'first': new MoveNextState({ text: textB, actions: [jumpToState('second')] }),
-        'second': new MoveNextState({ text: textC, actions: [endConversation()] })
+        [INIT_STATE]: new MoveNextState({ text: textA, actions: [jumpToState('first')] }),
+        first: new MoveNextState({ text: textB, actions: [jumpToState('second')] }),
+        second: new MoveNextState({ text: textC, actions: [endConversation()] })
     });
 
     assertBotResponse(bot, 'ok', textB);

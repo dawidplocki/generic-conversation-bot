@@ -2,14 +2,15 @@ const Bot = require('../../Bot');
 const WaitForActivationState = require('../../states/WaitForActivationState');
 const { response } = require('../../actions');
 const { assertBotResponse } = require('../utils');
+const { INIT_STATE } = require('../../Bot.Consts');
 
 
 function buildGreetingsBot() {
     return new Bot({
-        'start': new WaitForActivationState({
-            activation: 'hi',
-            actions: [response("Hello")]
-        })
+        [INIT_STATE]: new WaitForActivationState({
+                activation: 'hi',
+                actions: [response("Hello")]
+            })
     });
 }
 

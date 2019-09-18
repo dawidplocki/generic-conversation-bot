@@ -1,12 +1,13 @@
 const Assert = require('assert');
 const Bot = require('../Bot');
 const { setState } = require('../actions');
+const { INIT_STATE } = require('../Bot.Consts');
 
 it('should run all analyse actions', function() {
     let yieldCounter = 0;
     const expectedYieldCount = 10;
     const bot = new Bot({
-        'start': {
+        [INIT_STATE]: {
             *beforeMessage() {
             },
 
@@ -29,7 +30,7 @@ it('should run all analyse actions and beforeMessage actions', function() {
 
     const expectedYieldCount = 15;
     const bot = new Bot({
-        'start': {
+        [INIT_STATE]: {
             *beforeMessage() {
                 yield () => correctYieldCounter += 1;
             },
