@@ -1,17 +1,23 @@
 const actions = require('./actions');
 
-function convertTextIntoAction(actionLabel) {
-    const actionName = actionLabel
+function actionLabelToName(actionLabel) {
+    return actionLabel
         .split('_')
         .map((current, index) => (index == 0)
                 ? current.toLowerCase()
                 : current.charAt(0).toUpperCase() + current.slice(1).toLowerCase())
         .join('');
-
-    return actions[actionName]();
 }
 
-function parseParameteres(parameter) {
+function convertTextIntoAction(rawAction) {
+    const [actionName, actionParameters] = (rawAction instanceof Array) 
+        ? [actionLabelToName(rawAction[0]), rawAction.slice(1)]
+        : [actionLabelToName(rawAction), []];
+
+    return actions[actionName].apply(null, actionParameters);
+}
+
+function parseParameters(parameter) {
     if (parameter instanceof Array) {
         return parameter.map(currentAction => convertTextIntoAction(currentAction));
     } else if (parameter instanceof Object) {
@@ -22,7 +28,7 @@ function parseParameteres(parameter) {
                 continue;
             }
 
-            result[key] = parseParameteres(parameter[key]);
+            result[key] = parseParameters(parameter[key]);
         }
 
         return result;
@@ -39,7 +45,7 @@ module.exports = function(statesArray) {
 
             const state = require(`./states/${stateFileName}`)
 
-            previous[current.name] = new state(parseParameteres(current));
+            previous[current.name] = new state(parseParameters(current));
 
             return previous;
         }, {});

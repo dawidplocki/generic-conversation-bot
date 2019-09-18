@@ -12,7 +12,7 @@ function assertStateMapCount(result, expectedStateCount) {
 }
 
 
-it('should return correct waitForActivation', function() {
+it('should return correct waitForActivation', function () {
     // Assign
     const activation = 'hi';
     const name = "Test";
@@ -31,11 +31,11 @@ it('should return correct waitForActivation', function() {
     Assert.strictEqual(result[name].activation, activation, "Parser should return class with correct parameters");
 });
 
-it('should return correct ChooseState', function() {
+it('should return correct ChooseState', function () {
     // Assign
     const initText = 'Choose your pain';
     const name = "Test";
-    
+
     // Act
     const result = parser([{
         name: name,
@@ -50,7 +50,7 @@ it('should return correct ChooseState', function() {
     Assert.strictEqual(result[name].initText, initText, "Parser should return class with correct parameters");
 });
 
-it('should return map of name to state', function() {
+it('should return map of name to state', function () {
     // Assign
     const firstStateName = 'first';
     const secondStateName = 'second';
@@ -79,7 +79,7 @@ it('should return map of name to state', function() {
     Assert.deepStrictEqual(result, expected, "Parser should map the input into states map");
 });
 
-it('should parse action string into the action function', function() {
+it('should parse action string into the action function', function () {
     // Assign and Act
     const spy = { hasBeenCalled: false, reset: function () { this.hasBeenCalled = true; } };
     const result = parser([{
@@ -90,7 +90,7 @@ it('should parse action string into the action function', function() {
             "end_conversation"
         ]
     }]);
-   
+
     // Assert
     assertStateMapCount(result, 1);
 
@@ -106,5 +106,51 @@ it('should parse action string into the action function', function() {
 
     action(spy);
 
-    Assert.ok(spy.hasBeenCalled, "Converted action is not endConversation" );
+    Assert.ok(spy.hasBeenCalled, "Converted action is not endConversation");
+});
+
+
+it('should parse action string with parameers into the action function', function () {
+    // Assign and Act
+    class Spy {
+        constructor() {
+            this.__response = null;
+        }
+
+        set response(value) {
+            this.__response = value;
+        }
+
+        get response() {
+            return this.__response;
+        }
+    }
+
+    const spy = new Spy();
+    const response = "Hi!";
+    const result = parser([{
+        name: INIT_STATE,
+        type: 'move_next',
+        text: "Hello",
+        actions: [
+            ["response", response]
+        ]
+    }]);
+
+    // Assert
+    assertStateMapCount(result, 1);
+
+    const state = result[INIT_STATE];
+    const actions = state.actions;
+
+    Assert.ok(actions instanceof Array, "Actions of State should the stored in array");
+    Assert.strictEqual(actions.length, 1, "Parser should find only one action");
+
+    const action = actions[0];
+
+    Assert.ok(action instanceof Function, "Actions should be translate into function");
+
+    action(spy);
+
+    Assert.strictEqual(spy.response, response, "Converted action is not setResponse");
 });
