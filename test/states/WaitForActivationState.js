@@ -8,10 +8,7 @@ describe('Wait For Activation State', function() {
 
     function buildGreetingsBot() {
         return new Bot({
-            [INIT_STATE]: new WaitForActivationState({
-                    activation: 'hi',
-                    actions: [response("Hello")]
-                })
+            [INIT_STATE]: new WaitForActivationState('hi', [response("Hello")])
         });
     }
 

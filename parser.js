@@ -1,6 +1,7 @@
 const actions = require('./actions');
+const states = require('./states');
 
-function actionLabelToName(actionLabel) {
+function labelToFunctionName(actionLabel) {
     return actionLabel
         .split('_')
         .map((current, index) => (index == 0)
@@ -11,8 +12,8 @@ function actionLabelToName(actionLabel) {
 
 function convertTextIntoAction(rawAction) {
     const [actionName, actionParameters] = (rawAction instanceof Array) 
-        ? [actionLabelToName(rawAction[0]), rawAction.slice(1)]
-        : [actionLabelToName(rawAction), []];
+        ? [labelToFunctionName(rawAction[0]), rawAction.slice(1)]
+        : [labelToFunctionName(rawAction), []];
 
     return actions[actionName].apply(null, actionParameters);
 }
@@ -39,13 +40,9 @@ function parseParameters(parameter) {
 
 module.exports = function(statesArray) {
     return statesArray.reduce((previous, current) => {
-            const stateFileName = current.type.split('_')
-                .map(x => x.charAt(0).toUpperCase() + x.slice(1))
-                .join('') + 'State';
+            const state = states[labelToFunctionName(current.type)];
 
-            const state = require(`./states/${stateFileName}`)
-
-            previous[current.name] = new state(parseParameters(current));
+            previous[current.name] = state.call(null, parseParameters(current));
 
             return previous;
         }, {});

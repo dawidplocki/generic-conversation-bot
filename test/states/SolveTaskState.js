@@ -13,16 +13,8 @@ describe('Solve Task State', function() {
 
     function buildMathBot() {
         return new Bot({
-            start: new MoveNextState({
-                    text: 'pass on',
-                    actions: [jumpToState('first')]
-                }),
-            first: new SolveTaskState({
-                    text: question,
-                    answer: answer,
-                    correct: [response(correct)],
-                    incorrect: [response(incorrect)]
-                })
+            start: new MoveNextState('pass on', [jumpToState('first')]),
+            first: new SolveTaskState(question, answer, [response(correct)], [response(incorrect)])
         });
     }
     

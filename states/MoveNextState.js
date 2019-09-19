@@ -1,5 +1,5 @@
 class MoveNextState {
-    constructor({ text, actions }) {
+    constructor(text, actions) {
         this.text = text;
         this.actions = actions;
     }

@@ -7,9 +7,9 @@ const { INIT_STATE } = require('../../Bot.Consts');
 describe('Choose State', function() {
     function buildMorpheusBot() {
         return new Bot({
-            [INIT_STATE]: new ChooseState({
-                    initText: "Choose the pill: red or blue",
-                    replays: {
+            [INIT_STATE]: new ChooseState(
+                    "Choose the pill: red or blue",
+                    {
                         'BLUE': [
                             response("The story ends, you wake up in your bed and believe whatever you want to believe")
                         ],
@@ -17,10 +17,9 @@ describe('Choose State', function() {
                             response("You stay in Wonderland, and I show you how deep the rabbit hole goes")
                         ]
                     }
-                })
+                )
         });
     }
-
 
     it('should offer choice, then response to first option', function() {
         const bot = buildMorpheusBot();

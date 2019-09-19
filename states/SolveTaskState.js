@@ -1,7 +1,7 @@
 const { response } = require('../actions');
 
 class SolveTaskState {
-    constructor({ text, answer, correct, incorrect }) {
+    constructor(text, answer, correct, incorrect) {
         this.text = text;
         this.answer = answer;
         this.correct = correct;

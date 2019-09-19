@@ -13,36 +13,28 @@ describe('Bot switching states', function() {
     const DStateText = 'Your are in D: This is ending state';
 
 
-    function buildChoose(initText, replays) {
-        return new ChooseState({
-                initText: initText,
-                replays: replays
-            });
-    }
-
-
     function buildBot() {
         return new Bot({
-            [INIT_STATE]: new WaitForActivationState({ activation: 'hi', actions: jumpToState('A') }),
-            A: buildChoose(
+            [INIT_STATE]: new WaitForActivationState('hi', [jumpToState('A')]),
+            A: new ChooseState(
                 AStateText,
                 {
                     'B': [jumpToState('B')],
                     'C': [jumpToState('C')]
                 }),
-            B: buildChoose(
+            B: new ChooseState(
                 BStateText,
                 {
                     'yes': [endConversation()],
                     'no': [jumpToState('D')]
                 }),
-            C: buildChoose(
+            C: new ChooseState(
                 CStateText,
                 {
                     'yes': [jumpToState('D')],
                     'no': [endConversation()]
                 }),
-            D: buildChoose(
+            D: new ChooseState(
                 DStateText,
                 {
                     'ok': [jumpToState(INIT_STATE)]

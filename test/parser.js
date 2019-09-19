@@ -68,8 +68,8 @@ describe('State Parser', function() {
             replays: {}
         };
         const expected = {
-            [firstStateName]: new WaitForActivationState(paramForFirstState),
-            [secondStateName]: new ChooseState(paramForSecondState)
+            [firstStateName]: new WaitForActivationState('hi', []),
+            [secondStateName]: new ChooseState('', {})
         };
 
         // Act

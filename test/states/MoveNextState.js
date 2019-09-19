@@ -11,9 +11,9 @@ describe('Move Next State', function() {
         const textC = 'You are on C';
 
         const bot = new Bot({
-            [INIT_STATE]: new MoveNextState({ text: textA, actions: [jumpToState('first')] }),
-            first: new MoveNextState({ text: textB, actions: [jumpToState('second')] }),
-            second: new MoveNextState({ text: textC, actions: [endConversation()] })
+            [INIT_STATE]: new MoveNextState(textA, [jumpToState('first')]),
+            first: new MoveNextState(textB, [jumpToState('second')]),
+            second: new MoveNextState(textC, [endConversation()])
         });
 
         assertBotResponse(bot, 'ok', textB);

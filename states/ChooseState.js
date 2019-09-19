@@ -2,7 +2,7 @@ const { response } = require('../actions');
 
 class ChooseState {
 
-    constructor({ initText, replays }) {
+    constructor(initText, replays) {
         this.initText = initText;
         this.replays = Object.keys(replays).reduce(function(result, key) {
                 result[key.toLowerCase()] = replays[key];

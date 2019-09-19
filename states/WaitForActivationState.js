@@ -2,7 +2,7 @@ const { staySilence } = require('../actions');
 
 class WaitForActivationState {
 
-    constructor({activation, actions}) {
+    constructor(activation, actions) {
         this.activation = activation;
         this.actions = (typeof actions === 'function')
             ? [actions]
