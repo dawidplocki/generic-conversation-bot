@@ -6,75 +6,77 @@ const { jumpToState, endConversation } = require('../actions');
 const { assertBotResponse } = require('./utils');
 const { INIT_STATE } = require('../Bot.Consts');
 
+describe('Bot switching states', function() {
+    const AStateText = 'Your are in A: Choose B or C';
+    const BStateText = 'Your are in B: Return to begining?';
+    const CStateText = 'Your are in C: Proceed?';
+    const DStateText = 'Your are in D: This is ending state';
 
-function buildChoose(initText, replays) {
-    return new ChooseState({
-            initText: initText,
-            replays: replays
+
+    function buildChoose(initText, replays) {
+        return new ChooseState({
+                initText: initText,
+                replays: replays
+            });
+    }
+
+
+    function buildBot() {
+        return new Bot({
+            [INIT_STATE]: new WaitForActivationState({ activation: 'hi', actions: jumpToState('A') }),
+            A: buildChoose(
+                AStateText,
+                {
+                    'B': [jumpToState('B')],
+                    'C': [jumpToState('C')]
+                }),
+            B: buildChoose(
+                BStateText,
+                {
+                    'yes': [endConversation()],
+                    'no': [jumpToState('D')]
+                }),
+            C: buildChoose(
+                CStateText,
+                {
+                    'yes': [jumpToState('D')],
+                    'no': [endConversation()]
+                }),
+            D: buildChoose(
+                DStateText,
+                {
+                    'ok': [jumpToState(INIT_STATE)]
+                }
+            )
         });
-}
+    }
 
 
-const AStateText = 'Your are in A: Choose B or C';
-const BStateText = 'Your are in B: Return to begining?';
-const CStateText = 'Your are in C: Proceed?';
-const DStateText = 'Your are in D: This is ending state';
+    it('should start from "start" state', function() {
+        const bot = buildBot();
 
-
-function buildBot() {
-    return new Bot({
-        [INIT_STATE]: new WaitForActivationState({ activation: 'hi', actions: jumpToState('A') }),
-        A: buildChoose(
-            AStateText,
-            {
-                'B': [jumpToState('B')],
-                'C': [jumpToState('C')]
-            }),
-        B: buildChoose(
-            BStateText,
-            {
-                'yes': [endConversation()],
-                'no': [jumpToState('D')]
-            }),
-        C: buildChoose(
-            CStateText,
-            {
-                'yes': [jumpToState('D')],
-                'no': [endConversation()]
-            }),
-        D: buildChoose(
-            DStateText,
-            {
-                'ok': [jumpToState(INIT_STATE)]
-            }
-        )
+        Assert.ok(bot.state instanceof WaitForActivationState);
     });
-}
 
-it('should start from "start" state', function() {
-    const bot = buildBot();
+    it('should allow jump to next state', function() {
+        const bot = buildBot();
 
-    Assert.ok(bot.state instanceof WaitForActivationState);
-});
+        assertBotResponse(bot, 'hi', AStateText);
+    });
 
-it('should allow jump to next state', function() {
-    const bot = buildBot();
+    it('should allow multiple jumps', function() {
+        const bot = buildBot();
 
-    assertBotResponse(bot, 'hi', AStateText);
-});
+        assertBotResponse(bot, 'hi', AStateText);
+        assertBotResponse(bot, 'B', BStateText);
+        assertBotResponse(bot, 'no', DStateText);
+    });
 
-it('should allow multiple jumps', function() {
-    const bot = buildBot();
+    it('should jump should allow return to init', function() {
+        const bot = buildBot();
 
-    assertBotResponse(bot, 'hi', AStateText);
-    assertBotResponse(bot, 'B', BStateText);
-    assertBotResponse(bot, 'no', DStateText);
-});
-
-it('should jump should allow return to init', function() {
-    const bot = buildBot();
-
-    assertBotResponse(bot, 'hi', AStateText);
-    assertBotResponse(bot, 'B', BStateText);
-    assertBotResponse(bot, 'yes', null);
+        assertBotResponse(bot, 'hi', AStateText);
+        assertBotResponse(bot, 'B', BStateText);
+        assertBotResponse(bot, 'yes', null);
+    });
 });

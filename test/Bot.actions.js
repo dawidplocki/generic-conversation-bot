@@ -3,56 +3,59 @@ const Bot = require('../Bot');
 const { setState } = require('../actions');
 const { INIT_STATE } = require('../Bot.Consts');
 
-it('should run all analyse actions', function() {
-    let yieldCounter = 0;
-    const expectedYieldCount = 10;
-    const bot = new Bot({
-        [INIT_STATE]: {
-            *beforeMessage() {
-            },
+describe('Bot', function() {
 
-            *analyse() {
-                yield () => yieldCounter += 2;
-                yield () => yieldCounter += 3;
-                yield () => yieldCounter += 5;
+    it('should run all analyse actions', function() {
+        let yieldCounter = 0;
+        const expectedYieldCount = 10;
+        const bot = new Bot({
+            [INIT_STATE]: {
+                *beforeMessage() {
+                },
+
+                *analyse() {
+                    yield () => yieldCounter += 2;
+                    yield () => yieldCounter += 3;
+                    yield () => yieldCounter += 5;
+                }
             }
-        }
+        });
+
+        bot.message('');
+
+        Assert.strictEqual(yieldCounter, expectedYieldCount, `All actions after message should be called (result: ${yieldCounter}/${expectedYieldCount})`);
     });
 
-    bot.message('');
+    it('should run all analyse actions and beforeMessage actions', function() {
+        let correctYieldCounter = 0;
+        let incorrectYieldCounter = 0;
 
-    Assert.strictEqual(yieldCounter, expectedYieldCount, `All actions after message should be called (result: ${yieldCounter}/${expectedYieldCount})`);
-});
+        const expectedYieldCount = 15;
+        const bot = new Bot({
+            [INIT_STATE]: {
+                *beforeMessage() {
+                    yield () => correctYieldCounter += 1;
+                },
 
-it('should run all analyse actions and beforeMessage actions', function() {
-    let correctYieldCounter = 0;
-    let incorrectYieldCounter = 0;
+                *analyse() {
+                    yield () => correctYieldCounter += 2;
+                    yield () => correctYieldCounter += 4;
+                    yield setState({
+                        *beforeMessage() {
+                            yield () => correctYieldCounter += 8;
+                        },
 
-    const expectedYieldCount = 15;
-    const bot = new Bot({
-        [INIT_STATE]: {
-            *beforeMessage() {
-                yield () => correctYieldCounter += 1;
-            },
-
-            *analyse() {
-                yield () => correctYieldCounter += 2;
-                yield () => correctYieldCounter += 4;
-                yield setState({
-                    *beforeMessage() {
-                        yield () => correctYieldCounter += 8;
-                    },
-
-                    *analyse() {
-                        yield () => incorrectYieldCounter++;
-                    }
-                });
+                        *analyse() {
+                            yield () => incorrectYieldCounter++;
+                        }
+                    });
+                }
             }
-        }
+        });
+
+        bot.message('');
+
+        Assert.strictEqual(incorrectYieldCounter, 0, `Some action has been called, but they should not (number: ${incorrectYieldCounter})`);
+        Assert.strictEqual(correctYieldCounter, expectedYieldCount, `All actions after message should be called (result: ${correctYieldCounter}/${expectedYieldCount})`);
     });
-
-    bot.message('');
-
-    Assert.strictEqual(incorrectYieldCounter, 0, `Some action has been called, but they should not (number: ${incorrectYieldCounter})`);
-    Assert.strictEqual(correctYieldCounter, expectedYieldCount, `All actions after message should be called (result: ${correctYieldCounter}/${expectedYieldCount})`);
 });
