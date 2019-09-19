@@ -157,3 +157,61 @@ describe('Action Parser', function() {
         Assert.strictEqual(spy.response, response, "Converted action is not setResponse");
     });
 });
+
+describe('Parser Extension', function() {
+
+    it('should use states extension', function() {
+        let spyCheck = false;
+        const testStateName = 'test';
+        const result = parser(
+            [
+                {
+                    name: INIT_STATE,
+                    type: 'move_next',
+                    text: "Hello",
+                    actions: []
+                },
+                {
+                    name: 'first',
+                    type: testStateName,
+                    actions: []
+                }
+            ],
+            {
+                [testStateName]: function() {
+                    spyCheck = true;
+                    return {};
+                }
+            });
+
+        // Assert
+        assertStateMapCount(result, 2);
+        Assert.ok(spyCheck, "Additional state builder function hasn't been called by parser");
+    });
+
+    it('should use actions extension', function() {
+        let spyCheck = false;
+        const testActionName = 'test';
+        const result = parser(
+            [
+                {
+                    name: INIT_STATE,
+                    type: 'move_next',
+                    text: "Hello",
+                    actions: [
+                        testActionName
+                    ]
+                }
+            ],
+            {},
+            {
+                [testActionName]: function() {
+                    spyCheck = true;
+                }
+            });
+
+        // Assert
+        assertStateMapCount(result, 1);
+        Assert.ok(spyCheck, "Additional action builder function hasn't been called by parser");
+    });
+});

@@ -1,6 +1,3 @@
-const actions = require('./actions');
-const states = require('./states');
-
 function labelToFunctionName(actionLabel) {
     return actionLabel
         .split('_')
@@ -10,7 +7,7 @@ function labelToFunctionName(actionLabel) {
         .join('');
 }
 
-function convertTextIntoAction(rawAction) {
+function convertTextIntoAction(rawAction, actions) {
     const [actionName, actionParameters] = (rawAction instanceof Array) 
         ? [labelToFunctionName(rawAction[0]), rawAction.slice(1)]
         : [labelToFunctionName(rawAction), []];
@@ -18,9 +15,9 @@ function convertTextIntoAction(rawAction) {
     return actions[actionName].apply(null, actionParameters);
 }
 
-function parseParameters(parameter) {
+function parseParameters(parameter, actions) {
     if (parameter instanceof Array) {
-        return parameter.map(currentAction => convertTextIntoAction(currentAction));
+        return parameter.map(currentAction => convertTextIntoAction(currentAction, actions));
     } else if (parameter instanceof Object) {
         const result = {};
 
@@ -29,7 +26,7 @@ function parseParameters(parameter) {
                 continue;
             }
 
-            result[key] = parseParameters(parameter[key]);
+            result[key] = parseParameters(parameter[key], actions);
         }
 
         return result;
@@ -38,12 +35,25 @@ function parseParameters(parameter) {
     return parameter;
 }
 
-module.exports = function(statesArray) {
+function parser(statesArray, states, actions) {
     return statesArray.reduce((previous, current) => {
             const state = states[labelToFunctionName(current.type)];
 
-            previous[current.name] = state.call(null, parseParameters(current));
+            previous[current.name] = state.call(null, parseParameters(current, actions));
 
             return previous;
         }, {});
+}
+
+module.exports = function(statesArray, additionalStates, additionalActions) {
+    const originalActions = require('./actions');
+    const originalStates = require('./states');
+
+    return (function(statesArray) {
+        return parser(
+                statesArray,
+                { ...originalStates, ...(additionalStates || {}) },
+                { ...originalActions, ...(additionalActions || {}) }
+            );
+    })(statesArray);
 }
