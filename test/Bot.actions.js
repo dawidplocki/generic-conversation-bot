@@ -1,5 +1,5 @@
 const Assert = require('assert');
-const Bot = require('../Bot');
+const { buildBot } = require('../BotBuilder');
 const { setState } = require('../actions');
 const { INIT_STATE } = require('../Bot.Consts');
 
@@ -8,7 +8,7 @@ describe('Bot', function() {
     it('should run all analyse actions', function() {
         let yieldCounter = 0;
         const expectedYieldCount = 10;
-        const bot = new Bot({
+        const bot = buildBot({
             [INIT_STATE]: {
                 *beforeMessage() {
                 },
@@ -31,7 +31,7 @@ describe('Bot', function() {
         let incorrectYieldCounter = 0;
 
         const expectedYieldCount = 15;
-        const bot = new Bot({
+        const bot = buildBot({
             [INIT_STATE]: {
                 *beforeMessage() {
                     yield () => correctYieldCounter += 1;

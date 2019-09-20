@@ -1,5 +1,5 @@
 const Assert = require('assert');
-const Bot = require('../Bot');
+const { buildBot } = require('../BotBuilder');
 const WaitForActivationState = require('../states/WaitForActivationState');
 const ChooseState = require('../states/ChooseState');
 const { jumpToState, endConversation } = require('../actions');
@@ -13,8 +13,8 @@ describe('Bot switching states', function() {
     const DStateText = 'Your are in D: This is ending state';
 
 
-    function buildBot() {
-        return new Bot({
+    function buildJumpingBot() {
+        return buildBot({
             [INIT_STATE]: new WaitForActivationState('hi', [jumpToState('A')]),
             A: new ChooseState(
                 AStateText,
@@ -45,19 +45,19 @@ describe('Bot switching states', function() {
 
 
     it('should start from "start" state', function() {
-        const bot = buildBot();
+        const bot = buildJumpingBot();
 
         Assert.ok(bot.state instanceof WaitForActivationState);
     });
 
     it('should allow jump to next state', function() {
-        const bot = buildBot();
+        const bot = buildJumpingBot();
 
         assertBotResponse(bot, 'hi', AStateText);
     });
 
     it('should allow multiple jumps', function() {
-        const bot = buildBot();
+        const bot = buildJumpingBot();
 
         assertBotResponse(bot, 'hi', AStateText);
         assertBotResponse(bot, 'B', BStateText);
@@ -65,7 +65,7 @@ describe('Bot switching states', function() {
     });
 
     it('should jump should allow return to init', function() {
-        const bot = buildBot();
+        const bot = buildJumpingBot();
 
         assertBotResponse(bot, 'hi', AStateText);
         assertBotResponse(bot, 'B', BStateText);

@@ -48,12 +48,15 @@ class Bot {
     }
 
     message(message) {
-        this.addAction(this.__state.analyse(message.toLowerCase()));
+        this.addAction(this.__state.analyse(message));
         for (let action of this.nextAction()) {
-            action(this);
+            action(this, message);
         }
 
-        return this.__response;
+        return {
+            ...message,
+            response: this.__response
+        }
     }
 }
 

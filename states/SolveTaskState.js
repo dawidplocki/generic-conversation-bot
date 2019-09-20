@@ -13,7 +13,7 @@ class SolveTaskState {
     }
 
     *analyse(message) {
-        if (this.answer === message) {
+        if (this.answer === message.text) {
             yield* this.correct;
             return
         }

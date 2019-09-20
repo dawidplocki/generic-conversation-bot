@@ -1,4 +1,4 @@
-const Bot = require('../../Bot');
+const { buildBot } = require('../../BotBuilder');
 const MoveNextState = require('../../states/MoveNextState');
 const { jumpToState, endConversation } = require('../../actions');
 const { assertBotResponse } = require('../utils');
@@ -10,7 +10,7 @@ describe('Move Next State', function() {
         const textB = 'You are on B';
         const textC = 'You are on C';
 
-        const bot = new Bot({
+        const bot = buildBot({
             [INIT_STATE]: new MoveNextState(textA, [jumpToState('first')]),
             first: new MoveNextState(textB, [jumpToState('second')]),
             second: new MoveNextState(textC, [endConversation()])

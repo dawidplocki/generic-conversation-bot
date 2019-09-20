@@ -19,3 +19,13 @@ module.exports.endConversation = function() {
 module.exports.jumpToState = function(stateName) {
     return bot => bot.jumpToState(stateName);
 }
+
+module.exports.remember = function(key, value) {
+    return (_, message) => {
+        if (!message.memory) {
+            message.memory = {};
+        }
+
+        message.memory[key] = value;
+    }  
+}

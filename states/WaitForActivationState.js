@@ -13,7 +13,7 @@ class WaitForActivationState {
     }
 
     *analyse(message) {
-        if (message !== this.activation) {
+        if (message.text !== this.activation) {
             yield staySilence();
             return;
         }

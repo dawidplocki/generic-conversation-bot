@@ -1,4 +1,4 @@
-const Bot = require('../../Bot');
+const { buildBot } = require('../../BotBuilder');
 const MoveNextState = require('../../states/MoveNextState');
 const SolveTaskState = require('../../states/SolveTaskState');
 const { jumpToState, response } = require('../../actions');
@@ -12,7 +12,7 @@ describe('Solve Task State', function() {
 
 
     function buildMathBot() {
-        return new Bot({
+        return buildBot({
             start: new MoveNextState('pass on', [jumpToState('first')]),
             first: new SolveTaskState(question, answer, [response(correct)], [response(incorrect)])
         });
