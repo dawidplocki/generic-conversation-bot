@@ -39,7 +39,6 @@ describe('Bot', function() {
 
                 *analyse() {
                     yield () => correctYieldCounter += 2;
-                    yield () => correctYieldCounter += 4;
                     yield setState({
                         *beforeMessage() {
                             yield () => correctYieldCounter += 8;
@@ -49,6 +48,7 @@ describe('Bot', function() {
                             yield () => incorrectYieldCounter++;
                         }
                     });
+                    yield () => correctYieldCounter += 4;
                 }
             }
         });
