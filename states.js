@@ -1,6 +1,8 @@
 const ChooseState = require('./states/ChooseState');
 const MoveNextState = require('./states/MoveNextState');
 const WaitForActivationState = require('./states/WaitForActivationState');
+const SolveTaskState = require('./states/SolveTaskState');
+
 
 module.exports.choose = function({ initText, replays }) {
     return new ChooseState(initText, replays);
@@ -15,5 +17,5 @@ module.exports.waitForActivation = function({ activation, actions }) {
 };
 
 module.exports.solveTask = function({ text, answer, correct, incorrect }) {
-    return new WaitForActivationState(text, answer, correct, incorrect);
+    return new SolveTaskState(text, answer, correct, incorrect);
 };
