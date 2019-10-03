@@ -1,5 +1,15 @@
-function response(message) {
-    return bot => bot.response = message;
+function response(response) {
+    return (bot, message) => {
+        let result = response;
+
+        if (message && message.memory) {
+            result = Object
+                .keys(message.memory)
+                .reduce((whole, key) => whole.split('{' + key + '}').join(message.memory[key]), result);
+        }
+
+        bot.response = result;
+    }
 }
 
 

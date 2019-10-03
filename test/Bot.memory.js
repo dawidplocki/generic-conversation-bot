@@ -13,7 +13,7 @@ describe('Bot memory', function() {
         Assert.strictEqual(response.memory[key], expectedValue, "Memorised value is incorrect");
     }
 
-    it('should be accessible in the message', function() {
+    it('should be able to store datum', function() {
         const testKey = 'test_key';
         const testValue = 'test_value';
         const bot = new Bot({
@@ -29,7 +29,7 @@ describe('Bot memory', function() {
         assertMemoryResponse(response, testKey, testValue);
     });
 
-    it('should remember the input', function() {
+    it('should be able to store the input', function() {
         const testKey = 'test_key';
         const testValue = 'test_value';
         const bot = new Bot({
@@ -43,5 +43,23 @@ describe('Bot memory', function() {
         const response = bot.message({ text: testValue });
 
         assertMemoryResponse(response, testKey, testValue);
+    });
+
+    it('should be usable in response message', function() {
+        const testKey = 'test_key';
+        const testValue = 'test_value';
+        const expectedValue = 'test_value test_value test_value'
+        const bot = new Bot({
+            [INIT_STATE]: new MoveNextState('hi', [
+                rememberInputAs(testKey),
+                jumpToState('first')
+            ]),
+            'first': new MoveNextState(`{${testKey}} {${testKey}} {${testKey}}`, [endConversation()])
+        });
+
+        const response = bot.message({ text: testValue });
+
+        assertMemoryResponse(response, testKey, testValue);
+        Assert.strictEqual(response.response, expectedValue, "Message should be filled with memorised value");
     });
 });

@@ -1,3 +1,5 @@
+const { response } = require('../actions');
+
 class MoveNextState {
     constructor(text, actions) {
         this.text = text;
@@ -5,7 +7,7 @@ class MoveNextState {
     }
 
     *beforeMessage() {
-        yield bot => bot.response = this.text;
+        yield response(this.text);
     }
 
     *analyse() {
