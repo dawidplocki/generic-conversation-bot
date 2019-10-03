@@ -1,0 +1,27 @@
+[
+    {
+        "name": "start",
+        "type": "wait_for_activation",
+        "activation": "hi",
+        "actions": [
+            ["jump_to_state", "first"]
+        ]
+    },
+    {
+        "name": "first",
+        "type": "move_next",
+        "text": "Welcome, what is your name?",
+        "actions": [
+            ["remember_input_as", "user_name"],
+            ["jump_to_state", "second"]
+        ]
+    },
+    {
+        "name": "second",
+        "type": "move_next",
+        "text": "Nice to meet you {user_name}!",
+        "actions": [
+            "end_conversation"
+        ]
+    }
+]
