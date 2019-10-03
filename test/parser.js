@@ -107,7 +107,7 @@ describe('Action Parser', function() {
 
         Assert.ok(action instanceof Function, "Actions should be translate into function");
 
-        action(spy);
+        action(spy, { message: { memory: {} } });
 
         Assert.ok(spy.hasBeenCalled, "Converted action is not endConversation");
     });

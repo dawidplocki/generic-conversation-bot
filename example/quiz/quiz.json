@@ -10,7 +10,7 @@
     {
         "name": "first",
         "type": "solve_task",
-        "text": "What is '1' in english?",
+        "text": "How is '1' in english?",
         "answer": "one",
         "correct": [
             ["remember", "q1", "yes"],
@@ -24,7 +24,7 @@
     {
         "name": "second",
         "type": "solve_task",
-        "text": "What is '2' in english?",
+        "text": "How is '2' in english?",
         "answer": "two",
         "correct": [
             ["remember", "q2", "yes"],
@@ -38,7 +38,7 @@
     {
         "name": "third",
         "type": "solve_task",
-        "text": "What is '3' in english?",
+        "text": "How is '3' in english?",
         "answer": "three",
         "correct": [
             ["remember", "q3", "yes"],
@@ -52,7 +52,7 @@
     {
         "name": "fourth",
         "type": "solve_task",
-        "text": "What is '4' in english?",
+        "text": "How is '4' in english?",
         "answer": "four",
         "correct": [
             ["remember", "q4", "yes"],
