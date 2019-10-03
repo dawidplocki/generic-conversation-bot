@@ -1,14 +1,23 @@
+function clearMessage() {
+    return {
+        memory: {}
+    };
+}
+
 class Simplifier {
 
     constructor(bot) {
         this.__bot = bot;
-        this.__message = {
-                memory: {}
-            };
+        this.__message = clearMessage();
     }
 
     get state() {
         return this.__bot.state;
+    }
+
+    reset() {
+        this.__message = clearMessage();
+        this.__bot.reset();
     }
 
     message(message) {

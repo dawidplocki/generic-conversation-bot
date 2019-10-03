@@ -33,7 +33,10 @@ module.exports.setState = function(state) {
 };
 
 module.exports.endConversation = function() {
-    return bot => bot.reset();
+    return (bot, message) => {
+            message.memory = {};
+            bot.reset();
+        };
 };
 
 module.exports.jumpToState = function(stateName) {

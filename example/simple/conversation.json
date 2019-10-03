@@ -21,6 +21,14 @@
         "type": "move_next",
         "text": "Nice to meet you {user_name}!",
         "actions": [
+            ["jump_to_state", "third"]
+        ]
+    },
+    {
+        "name": "third",
+        "type": "move_next",
+        "text": "Right... I will restart now",
+        "actions": [
             "end_conversation"
         ]
     }
