@@ -37,9 +37,13 @@ function parseParameters(parameter, actions) {
 
 function parser(statesArray, states, actions) {
     return statesArray.reduce((previous, current) => {
-            const state = states[labelToFunctionName(current.type)];
+            const stateName = labelToFunctionName(current.type);
 
-            previous[current.name] = state.call(null, parseParameters(current, actions));
+            if (!states.hasOwnProperty(stateName)) {
+                throw new Error(`Unknown state: '${stateName}'`);
+            }
+
+            previous[current.name] = states[stateName].call(null, parseParameters(current, actions));
 
             return previous;
         }, {});
