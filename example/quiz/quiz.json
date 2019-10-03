@@ -1,0 +1,70 @@
+[
+    {
+        "name": "start",
+        "type": "wait_for_activation",
+        "activation": "hi",
+        "actions": [
+            ["jump_to_state", "first"]
+        ]
+    },
+    {
+        "name": "first",
+        "type": "solve_task",
+        "text": "What is '1' in english?",
+        "answer": "one",
+        "correct": [
+            ["remember", "q1", "yes"],
+            ["jump_to_state", "second"]
+        ],
+        "incorrect": [
+            ["remember", "q1", "no"],
+            ["jump_to_state", "second"]
+        ]
+    },
+    {
+        "name": "second",
+        "type": "solve_task",
+        "text": "What is '2' in english?",
+        "answer": "two",
+        "correct": [
+            ["remember", "q2", "yes"],
+            ["jump_to_state", "third"]
+        ],
+        "incorrect": [
+            ["remember", "q2", "no"],
+            ["jump_to_state", "third"]
+        ]
+    },
+    {
+        "name": "third",
+        "type": "solve_task",
+        "text": "What is '3' in english?",
+        "answer": "three",
+        "correct": [
+            ["remember", "q3", "yes"],
+            ["jump_to_state", "fourth"]
+        ],
+        "incorrect": [
+            ["remember", "q3", "no"],
+            ["jump_to_state", "fourth"]
+        ]
+    },
+    {
+        "name": "fourth",
+        "type": "solve_task",
+        "text": "What is '4' in english?",
+        "answer": "four",
+        "correct": [
+            ["remember", "q4", "yes"],
+            ["jump_to_state", "summary"]
+        ],
+        "incorrect": [
+            ["remember", "q4", "no"],
+            ["jump_to_state", "summary"]
+        ]
+    },
+    {
+        "name": "summary",
+        "type": "summary"
+    }
+]
