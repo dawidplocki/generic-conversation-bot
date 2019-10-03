@@ -3,7 +3,7 @@ const { staySilence } = require('../actions');
 class WaitForActivationState {
 
     constructor(activation, actions) {
-        this.activation = activation;
+        this.activation = activation.toLowerCase();
         this.actions = (typeof actions === 'function')
             ? [actions]
             : actions;
@@ -13,7 +13,7 @@ class WaitForActivationState {
     }
 
     *analyse(message) {
-        if (message.text !== this.activation) {
+        if (message.text.toLowerCase() !== this.activation) {
             yield staySilence();
             return;
         }

@@ -3,7 +3,7 @@ const { response } = require('../actions');
 class SolveTaskState {
     constructor(text, answer, correct, incorrect) {
         this.text = text;
-        this.answer = answer;
+        this.answer = answer.toLowerCase();
         this.correct = correct;
         this.incorrect = incorrect;
     }
@@ -13,7 +13,7 @@ class SolveTaskState {
     }
 
     *analyse(message) {
-        if (this.answer === message.text) {
+        if (this.answer === message.text.toLowerCase()) {
             yield* this.correct;
             return
         }

@@ -8,8 +8,7 @@ module.exports = function(bot) {
   console.log('Bot has been loaded. Ctrl+C to quit');
   
   client.on('line', function (line) {
-      var botReplay = bot.message(line);
-  
-      console.log(botReplay);
+      var botReplay = bot.message(line || '');
+      console.log('Bot:', botReplay);
   });
 }

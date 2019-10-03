@@ -12,7 +12,7 @@ class Simplifier {
     }
 
     message(message) {
-        this.__message['text'] = message.toLowerCase();
+        this.__message['text'] = message;
 
         this.__message = this.__bot.message(this.__message);
 

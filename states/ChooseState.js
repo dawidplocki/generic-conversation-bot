@@ -15,9 +15,10 @@ class ChooseState {
     }
 
     *analyse(message) {
-        if (this.replays.hasOwnProperty(message.text)) {
-            yield* this.replays[message.text];
-            return 
+        const replay = message.text.toLowerCase();
+        if (this.replays.hasOwnProperty(replay)) {
+            yield* this.replays[replay];
+            return
         }
 
         yield* this.beforeMessage();
