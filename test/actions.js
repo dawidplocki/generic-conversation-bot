@@ -1,5 +1,6 @@
 const Assert = require('assert');
-const { response, rememberInputAs } = require('../actions');
+const actions = require('../actions');
+const { response, rememberInputAs } = actions;
 
 
 function assertMemoryResponse(response, key, expectedValue) {
@@ -53,6 +54,50 @@ describe('Action "rememberInputAs"', function() {
 
         // Assert
         assertMemoryResponse(message, testKey, testValue);
+    });
+});
+
+[
+    { action: 'increaseRemembered', expectedValueFrom1234: 1235, expectedValueFromUndefine: 1 },
+    { action: 'decreaseRemembered', expectedValueFrom1234: 1233, expectedValueFromUndefine: -1 },
+].forEach(function(test) {
+
+    describe(`Action "${test.action}"`, function() {
+
+        it('should change pointed value', function() {
+            // Assign
+            const testKey = 'test_key';
+            const testValue = 1234;
+            const message = {
+                memory: {
+                    [testKey]: testValue
+                }
+            };
+            const spyBot = {
+                response: null
+            };
+
+            // Act
+            actions[test.action](testKey)(spyBot, message);
+
+            // Assert
+            assertMemoryResponse(message, testKey, test.expectedValueFrom1234);
+        });
+
+        it("should change pointed value even if it haven't exist before", function() {
+            // Assign
+            const testKey = 'test_key';
+            const message = {};
+            const spyBot = {
+                response: null
+            };
+
+            // Act
+            actions[test.action](testKey)(spyBot, message);
+
+            // Assert
+            assertMemoryResponse(message, testKey, test.expectedValueFromUndefine);
+        });
     });
 });
 

@@ -49,6 +49,26 @@ module.exports.remember = function(key, value) {
 
 module.exports.rememberInputAs = function(key, transformFunction = null) {
     const transform = transformFunction ? transformFunction : (m => m.text);
-    
+
     return (_, message) => rememberInteralMechanism(message, key, transform(message));
 };
+
+module.exports.increaseRemembered = function(key) {
+    return (_, message) => rememberInteralMechanism(
+            message,
+            key,
+            message.memory && message.memory.hasOwnProperty(key)
+                ? message.memory[key] + 1
+                : 1
+        );
+}
+
+module.exports.decreaseRemembered = function(key) {
+    return (_, message) => rememberInteralMechanism(
+            message,
+            key,
+            message.memory && message.memory.hasOwnProperty(key)
+                ? message.memory[key] - 1
+                : -1
+        );
+}
