@@ -8,9 +8,13 @@ function labelToFunctionName(actionLabel) {
 }
 
 function convertTextIntoAction(rawAction, actions) {
-    const [actionName, actionParameters] = (rawAction instanceof Array) 
+    const [actionName, actionParameters] = (rawAction instanceof Array)
         ? [labelToFunctionName(rawAction[0]), rawAction.slice(1)]
         : [labelToFunctionName(rawAction), []];
+
+    if (!actions.hasOwnProperty(actionName)) {
+        throw new Error(`Unknown action: '${actionName}'`);
+    }
 
     return actions[actionName].apply(null, actionParameters);
 }

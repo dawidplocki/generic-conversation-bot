@@ -13,11 +13,11 @@
         "text": "How is '1' in english?",
         "answer": "one",
         "correct": [
-            ["remember", "q1", "yes"],
+            ["increase_remembered", "correct"],
             ["jump_to_state", "second"]
         ],
         "incorrect": [
-            ["remember", "q1", "no"],
+            ["increase_remembered", "incorrect"],
             ["jump_to_state", "second"]
         ]
     },
@@ -27,11 +27,11 @@
         "text": "How is '2' in english?",
         "answer": "two",
         "correct": [
-            ["remember", "q2", "yes"],
+            ["increase_remembered", "correct"],
             ["jump_to_state", "third"]
         ],
         "incorrect": [
-            ["remember", "q2", "no"],
+            ["increase_remembered", "incorrect"],
             ["jump_to_state", "third"]
         ]
     },
@@ -41,11 +41,11 @@
         "text": "How is '3' in english?",
         "answer": "three",
         "correct": [
-            ["remember", "q3", "yes"],
+            ["increase_remembered", "correct"],
             ["jump_to_state", "fourth"]
         ],
         "incorrect": [
-            ["remember", "q3", "no"],
+            ["increase_remembered", "incorrect"],
             ["jump_to_state", "fourth"]
         ]
     },
@@ -55,11 +55,11 @@
         "text": "How is '4' in english?",
         "answer": "four",
         "correct": [
-            ["remember", "q4", "yes"],
+            ["increase_remembered", "correct"],
             ["jump_to_state", "summary"]
         ],
         "incorrect": [
-            ["remember", "q4", "no"],
+            ["increase_remembered", "incorrect"],
             ["jump_to_state", "summary"]
         ]
     },

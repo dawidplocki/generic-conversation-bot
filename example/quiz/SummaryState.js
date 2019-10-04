@@ -7,12 +7,9 @@ class SummaryState {
 
     *beforeMessage() {
         yield (bot, message) => {
-            const answers = Object.values(message.memory);
-            const questionNumber = answers.length;
-            const correctNumber = answers
-                .filter(x => x == 'yes')
-                .length;
-                
+            const correctNumber = (message.memory.correct || 0);
+            const questionNumber = correctNumber + (message.memory.incorrect || 0);
+
             bot.response =
                 (questionNumber === correctNumber)
                 ? 'You answer all question correctly!'
