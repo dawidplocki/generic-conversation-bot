@@ -1,11 +1,11 @@
 const { response } = require('../actions');
 
-class SolveTaskState {
-    constructor(text, answer, correct, incorrect) {
+class IfElseTaskState {
+    constructor(text, answer, then, otherwise) {
         this.text = text;
         this.answer = answer.toLowerCase();
-        this.correct = correct;
-        this.incorrect = incorrect;
+        this.then = then;
+        this.otherwise = otherwise;
     }
 
     *beforeMessage() {
@@ -14,12 +14,12 @@ class SolveTaskState {
 
     *analyse(message) {
         if (this.answer === message.text.toLowerCase()) {
-            yield* this.correct;
+            yield* this.then;
             return
         }
 
-        yield* this.incorrect;
+        yield* this.otherwise;
     }
 }
 
-module.exports = SolveTaskState;
+module.exports = IfElseTaskState;

@@ -1,20 +1,20 @@
 const { buildBot } = require('../../BotBuilder');
 const MoveNextState = require('../../states/MoveNextState');
-const SolveTaskState = require('../../states/SolveTaskState');
+const IfElseTaskState = require('../../states/IfElseTaskState');
 const { jumpToState, response } = require('../../actions');
 const { assertBotResponse } = require('../utils');
 
-describe('Solve Task State', function() {
+describe('If-else Task State', function() {
     const question = 'What is 2 + 3?';
     const answer = '5';
-    const correct = "Correct";
-    const incorrect = "Incorrect";
+    const then = "Correct";
+    const otherwise = "Incorrect";
 
 
     function buildMathBot() {
         return buildBot({
             start: new MoveNextState('pass on', [jumpToState('first')]),
-            first: new SolveTaskState(question, answer, [response(correct)], [response(incorrect)])
+            first: new IfElseTaskState(question, answer, [response(then)], [response(otherwise)])
         });
     }
     
@@ -25,19 +25,19 @@ describe('Solve Task State', function() {
         assertBotResponse(bot, '', question);
     });
 
-    it('should give replay on correct', function() {
+    it('should give replay on "then"', function() {
         const bot = buildMathBot();
 
         bot.message('');
 
-        assertBotResponse(bot, answer, correct);
+        assertBotResponse(bot, answer, then);
     });
 
-    it('should give replay on incorrect', function() {
+    it('should give replay on "otherwise"', function() {
         const bot = buildMathBot();
 
         bot.message('');
 
-        assertBotResponse(bot, '23', incorrect);
+        assertBotResponse(bot, '23', otherwise);
     });
 });

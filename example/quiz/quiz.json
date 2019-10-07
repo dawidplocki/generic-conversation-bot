@@ -9,56 +9,56 @@
     },
     {
         "name": "first",
-        "type": "solve_task",
+        "type": "if_else_task",
         "text": "How is '1' in english?",
         "answer": "one",
-        "correct": [
+        "then": [
             ["increase_remembered", "correct"],
             ["jump_to_state", "second"]
         ],
-        "incorrect": [
+        "otherwise": [
             ["increase_remembered", "incorrect"],
             ["jump_to_state", "second"]
         ]
     },
     {
         "name": "second",
-        "type": "solve_task",
+        "type": "if_else_task",
         "text": "How is '2' in english?",
         "answer": "two",
-        "correct": [
+        "then": [
             ["increase_remembered", "correct"],
             ["jump_to_state", "third"]
         ],
-        "incorrect": [
+        "otherwise": [
             ["increase_remembered", "incorrect"],
             ["jump_to_state", "third"]
         ]
     },
     {
         "name": "third",
-        "type": "solve_task",
+        "type": "if_else_task",
         "text": "How is '3' in english?",
         "answer": "three",
-        "correct": [
+        "then": [
             ["increase_remembered", "correct"],
             ["jump_to_state", "fourth"]
         ],
-        "incorrect": [
+        "otherwise": [
             ["increase_remembered", "incorrect"],
             ["jump_to_state", "fourth"]
         ]
     },
     {
         "name": "fourth",
-        "type": "solve_task",
+        "type": "if_else_task",
         "text": "How is '4' in english?",
         "answer": "four",
-        "correct": [
+        "then": [
             ["increase_remembered", "correct"],
             ["jump_to_state", "summary"]
         ],
-        "incorrect": [
+        "otherwise": [
             ["increase_remembered", "incorrect"],
             ["jump_to_state", "summary"]
         ]
