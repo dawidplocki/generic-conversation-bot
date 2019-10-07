@@ -4,7 +4,6 @@
   "description": "The simple conversion bot with ability to read conversation files",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon ./index.js",
     "test": "mocha --recursive"
   },
   "keywords": [
@@ -16,7 +15,6 @@
   "author": "Dawid Płocki",
   "license": "ISC",
   "devDependencies": {
-    "mocha": "^6.2.0",
-    "nodemon": "^1.19.2"
+    "mocha": "^6.2.0"
   }
 }

@@ -1,29 +1,21 @@
 # Generic conversation bot
 
-The Node project.
-Version of node used during development: `v10.15.2`.
-
 ## Project description
 
-The simple conversation bot with ability of reading the dialogue tree from file.
+A simple conversation bot with ability of reading the dialogue scripts from file.
 
-## How to run
+## Examples
 
-### Usage
+Both example bot can use `BitClient`. The function use the Node `readline` module for terminal usage.
 
-```bash
-npm ci
-node index.js
-```
+### Simple
 
-### Development
+A linear conversation. The bot will ask about name and use it back. The example demonstrate the memory usage.
 
-The project is using [nodemon](https://nodemon.io/).
+### Quiz
 
-```bash
-npm install
-npm run dev
-```
+A linear conversation. The bot will ask few simple question and save the results showing the summary on the end.
+The example demonstrate own additional (the `SummaryState` class) state.
 
 ## Tests
 
