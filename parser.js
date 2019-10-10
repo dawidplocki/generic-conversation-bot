@@ -8,12 +8,12 @@ function labelToFunctionName(actionLabel) {
 }
 
 function convertTextIntoAction(rawAction, actions) {
-    const [actionName, actionParameters] = (rawAction instanceof Array)
-        ? [labelToFunctionName(rawAction[0]), rawAction.slice(1)]
-        : [labelToFunctionName(rawAction), []];
+    const [actionName, rawActionName, actionParameters] = (rawAction instanceof Array)
+        ? [labelToFunctionName(rawAction[0]), rawAction[0], rawAction.slice(1)]
+        : [labelToFunctionName(rawAction), rawAction, []];
 
     if (!actions.hasOwnProperty(actionName)) {
-        throw new Error(`Unknown action: '${actionName}'`);
+        throw new Error(`Unknown action: '${actionName}' (raw: ${rawActionName})`);
     }
 
     return actions[actionName].apply(null, actionParameters);
@@ -25,7 +25,7 @@ function parseParameters(parameter, actions) {
     } else if (parameter instanceof Object) {
         const result = {};
 
-        for (let key in parameter) {
+        for (const key in parameter) {
             if (!parameter.hasOwnProperty(key)) {
                 continue;
             }
@@ -39,12 +39,29 @@ function parseParameters(parameter, actions) {
     return parameter;
 }
 
-function parser(statesArray, states, actions) {
-    return statesArray.reduce((previous, current) => {
+function *preProcessing(states, preParsers) {
+    for(const state of states) {
+        if (state.hasOwnProperty('pre_parser')) {
+            const preParserName = labelToFunctionName(state['pre_parser']);
+
+            if (!preParsers.hasOwnProperty(preParserName)) {
+                throw new Error(`Unknown preParsers: '${preParserName}' (raw: '${state['pre_parser']}')`);
+            }
+
+            yield* state['pre_states'].map(preParsers[preParserName]);
+        } else {
+            yield state;
+        }
+    }
+}
+
+function parser(statesArray, states, actions, preParsers) {
+    return Array.from(preProcessing(statesArray, preParsers))
+        .reduce((previous, current) => {
             const stateName = labelToFunctionName(current.type);
 
             if (!states.hasOwnProperty(stateName)) {
-                throw new Error(`Unknown state: '${stateName}'`);
+                throw new Error(`Unknown state: '${stateName}' (raw: '${current.type}')`);
             }
 
             previous[current.name] = states[stateName].call(null, parseParameters(current, actions));
@@ -53,15 +70,44 @@ function parser(statesArray, states, actions) {
         }, {});
 }
 
-module.exports = function(statesArray, additionalStates, additionalActions) {
-    const originalActions = require('./actions');
-    const originalStates = require('./states');
 
-    return (function(statesArray) {
+class ParserBuilder {
+
+    constructor() {
+        this.additionalStates = null;
+        this.additionalActions = null;
+        this.preParsers = null;
+    }
+
+    addCustomStates(states) {
+        this.additionalStates = states;
+
+        return this;
+    }
+
+    addCustomActions(states) {
+        this.additionalActions = states;
+
+        return this;
+    }
+
+    addPreParsers(preParsers) {
+        this.preParsers = preParsers;
+
+        return this;
+    }
+
+    parse(jsonStatesArray) {
+        const originalActions = require('./actions');
+        const originalStates = require('./states');
+
         return parser(
-                statesArray,
-                { ...originalStates, ...(additionalStates || {}) },
-                { ...originalActions, ...(additionalActions || {}) }
+            jsonStatesArray,
+                { ...originalStates, ...(this.additionalStates || {}) },
+                { ...originalActions, ...(this.additionalActions || {}) },
+                this.preParsers || {}
             );
-    })(statesArray);
+    }
 }
+
+module.exports = ParserBuilder;

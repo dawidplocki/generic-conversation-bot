@@ -1,7 +1,7 @@
 const Assert = require('assert');
 const WaitForActivationState = require('../states/WaitForActivationState');
 const ChooseState = require('../states/ChooseState');
-const parser = require('../parser');
+const ParserBuilder = require('../parser');
 const { INIT_STATE } = require('../Bot.Consts');
 
 
@@ -19,7 +19,7 @@ describe('State Parser', function() {
         const name = "Test";
 
         // Act
-        const result = parser([{
+        const result = new ParserBuilder().parse([{
             name: name,
             type: 'wait_for_activation',
             activation: activation,
@@ -38,7 +38,7 @@ describe('State Parser', function() {
         const name = "Test";
 
         // Act
-        const result = parser([{
+        const result = new ParserBuilder().parse([{
             name: name,
             type: 'choose',
             initText: initText,
@@ -73,7 +73,7 @@ describe('State Parser', function() {
         };
 
         // Act
-        const result = parser([paramForFirstState, paramForSecondState]);
+        const result = new ParserBuilder().parse([paramForFirstState, paramForSecondState]);
 
         // Assert
         assertStateMapCount(result, 2);
@@ -85,14 +85,14 @@ describe('Action Parser', function() {
     it('should parse action string into the action function', function () {
         // Assign and Act
         const spy = { hasBeenCalled: false, reset: function () { this.hasBeenCalled = true; } };
-        const result = parser([{
-            name: INIT_STATE,
-            type: 'move_next',
-            text: "Hello",
-            actions: [
-                "end_conversation"
-            ]
-        }]);
+        const result = new ParserBuilder().parse([{
+                name: INIT_STATE,
+                type: 'move_next',
+                text: "Hello",
+                actions: [
+                    "end_conversation"
+                ]
+            }]);
 
         // Assert
         assertStateMapCount(result, 1);
@@ -130,7 +130,7 @@ describe('Action Parser', function() {
 
         const spy = new Spy();
         const response = "Hi!";
-        const result = parser([{
+        const result = new ParserBuilder().parse([{
             name: INIT_STATE,
             type: 'move_next',
             text: "Hello",
@@ -163,8 +163,14 @@ describe('Parser Extension', function() {
     it('should use states extension', function() {
         let spyCheck = false;
         const testStateName = 'test';
-        const result = parser(
-            [
+        const result = new ParserBuilder()
+            .addCustomStates({
+                [testStateName]: function() {
+                    spyCheck = true;
+                    return {};
+                }
+            })
+            .parse([
                 {
                     name: INIT_STATE,
                     type: 'move_next',
@@ -176,13 +182,7 @@ describe('Parser Extension', function() {
                     type: testStateName,
                     actions: []
                 }
-            ],
-            {
-                [testStateName]: function() {
-                    spyCheck = true;
-                    return {};
-                }
-            });
+            ]);
 
         // Assert
         assertStateMapCount(result, 2);
@@ -192,8 +192,13 @@ describe('Parser Extension', function() {
     it('should use actions extension', function() {
         let spyCheck = false;
         const testActionName = 'test';
-        const result = parser(
-            [
+        const result = new ParserBuilder()
+            .addCustomActions({
+                    [testActionName]: function() {
+                        spyCheck = true;
+                    }
+            })
+            .parse([
                 {
                     name: INIT_STATE,
                     type: 'move_next',
@@ -202,16 +207,38 @@ describe('Parser Extension', function() {
                         testActionName
                     ]
                 }
-            ],
-            {},
-            {
-                [testActionName]: function() {
-                    spyCheck = true;
-                }
-            });
+            ])
 
         // Assert
         assertStateMapCount(result, 1);
         Assert.ok(spyCheck, "Additional action builder function hasn't been called by parser");
+    });
+
+    it('should use preparsers', function() {
+        // Assign
+        const preParserName = 'test';
+        // Act
+        const result = new ParserBuilder()
+            .addPreParsers({
+                test: function(state) {
+                    state['type'] = 'wait_for_activation';
+                    state['activation'] = 'hi';
+
+                    return state;
+                }
+            })
+            .parse([{
+                    pre_parser: 'test',
+                    pre_states: [
+                        { name: "1" },
+                        { name: "2" }
+                    ]
+                }
+            ]);
+
+        // Assert
+        Assert.strictEqual(Object.keys(result).length, 2, "Should be two states");
+        Assert.ok(result["1"] instanceof WaitForActivationState, "State 1 should have property given by preparser");
+        Assert.ok(result["2"] instanceof WaitForActivationState, "State 2 should have property given by preparser");
     });
 });
