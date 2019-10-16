@@ -58,6 +58,14 @@ function *preProcessing(states, preParsers) {
 function parser(statesArray, states, actions, preParsers) {
     return Array.from(preProcessing(statesArray, preParsers))
         .reduce((previous, current) => {
+            if (!current.hasOwnProperty('type')) {
+                throw new Error(`Missing type attribute! (raw: ${JSON.stringify(current)})`);
+            }
+
+            if (!current.hasOwnProperty('name')) {
+                throw new Error(`Missing name attribute! (raw: ${JSON.stringify(current)})`);
+            }
+
             const stateName = labelToFunctionName(current.type);
 
             if (!states.hasOwnProperty(stateName)) {
