@@ -24,4 +24,4 @@ class SummaryState {
     }
 }
 
-module.exports = SummaryState;
+module.exports.summary = () => new SummaryState();
