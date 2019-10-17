@@ -1,6 +1,6 @@
 const { buildBot } = require('../../BotBuilder');
 const MoveNextState = require('../../states/MoveNextState');
-const IfElseTaskState = require('../../states/IfElseTaskState');
+const IfElseState = require('../../states/IfElseState');
 const { jumpToState, response } = require('../../actions');
 const { assertBotResponse } = require('../utils');
 
@@ -14,7 +14,7 @@ describe('If-else Task State', function() {
     function buildMathBot() {
         return buildBot({
             start: new MoveNextState('pass on', [jumpToState('first')]),
-            first: new IfElseTaskState(question, answer, [response(then)], [response(otherwise)])
+            first: new IfElseState(question, answer, [response(then)], [response(otherwise)])
         });
     }
     

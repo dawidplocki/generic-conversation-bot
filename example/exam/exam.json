@@ -9,7 +9,7 @@
     },
     {
         "name": "confirm_participation",
-        "type": "if_else_task",
+        "type": "if_else",
         "text": "Hello, welcome on english number exam. Are you ready to participate in the exam? Please type 'yes' in other case, bot will be deactivated.",
         "answer": "yes",
         "then": [

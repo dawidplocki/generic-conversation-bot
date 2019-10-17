@@ -1,6 +1,6 @@
 const { response } = require('../actions');
 
-class IfElseTaskState {
+class IfElseState {
     constructor(text, answer, then, otherwise) {
         this.text = text;
         this.answer = answer.toLowerCase();
@@ -22,4 +22,4 @@ class IfElseTaskState {
     }
 }
 
-module.exports = IfElseTaskState;
+module.exports = IfElseState;
