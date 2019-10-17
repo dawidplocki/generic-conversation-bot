@@ -1,0 +1,68 @@
+[
+    {
+        "name": "start",
+        "type": "wait_for_activation",
+        "activation": "hi",
+        "actions": [
+            ["jump_to_state", "confirm_participation"]
+        ]
+    },
+    {
+        "name": "confirm_participation",
+        "type": "if_else_task",
+        "text": "Hello, welcome on english number exam. Are you ready to participate in the exam? Please type 'yes' in other case, bot will be deactivated.",
+        "answer": "yes",
+        "then": [
+            ["jump_to_state", "name_provide"]
+        ],
+        "otherwise": [
+            "end_conversation"
+        ]
+    },
+    {
+        "name": "name_provide",
+        "type": "move_next",
+        "text": "Thank for participate. Please state your name for the record.",
+        "actions": [
+            ["remember_input_as", "user_name"],
+            ["jump_to_state", "instruction"]
+        ]
+    },
+    {
+        "name": "instruction",
+        "type": "move_next",
+        "text": "Thank you {user_name}. The exam will begin now.\nYou can skip question by typing 'next' or return to previous by typing 'prev'.\nConfirm readiness by any message",
+        "actions": [
+            ["jump_to_state", "question_1"]
+        ]
+    },
+    {
+        "pre_parser": "add_question_count",
+        "pre_states": [
+            {
+                "type": "question",
+                "text": "How is '1' in english?",
+                "answer": "one"
+            },
+            {
+                "type": "question",
+                "text": "How is '2' in english?",
+                "answer": "two"
+            },
+            {
+                "type": "question",
+                "text": "How is '3' in english?",
+                "answer": "three"
+            },
+            {
+                "type": "question",
+                "text": "How is '4' in english?",
+                "answer": "four"
+            }
+        ]
+    },
+    {
+        "name": "finish_exam",
+        "type": "finish_exam"
+    }
+]

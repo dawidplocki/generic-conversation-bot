@@ -1,9 +1,17 @@
 const { buildBot } = require('./BotBuilder');
 const fs = require('fs');
-const parser = require('./parser');
-const contents = JSON.parse(fs.readFileSync('example/quiz/quiz.json', 'utf8'));
-const SummaryState = require('./example/quiz/SummaryState');
-const bot = buildBot(parser(contents, { summary: () => new SummaryState() }));
+const ParserBuild = require('./parser');
+const states = new ParserBuild()
+    .addCustomStates(
+        require('./example/exam/states')
+    )
+    .addPreParsers(
+        require('./example/exam/preParsers')
+    )
+    .parse(
+        JSON.parse(fs.readFileSync('example/exam/exam.json', 'utf8'))
+    );
+const bot = buildBot(states);
 
 
 function sayToBot(message) {
@@ -14,12 +22,15 @@ function sayToBot(message) {
 
 sayToBot('hi');
 sayToBot('one');
-sayToBot('two');
-sayToBot('tree');
-sayToBot('four');
-sayToBot('ok');
+
 sayToBot('hi');
-sayToBot('one');
+sayToBot('yes');
+sayToBot('Native');
+sayToBot('any');
+sayToBot('next');
 sayToBot('two');
 sayToBot('three');
+sayToBot('prev');
+sayToBot('one');
 sayToBot('four');
+sayToBot('any');

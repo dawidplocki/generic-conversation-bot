@@ -33,8 +33,8 @@ class Bot {
     }
 
     reset() {
-        this.jumpToState(INIT_STATE);
         this.__response = null;
+        this.jumpToState(INIT_STATE);
     }
 
     *nextAction() {
