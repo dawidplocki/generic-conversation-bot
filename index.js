@@ -3,13 +3,13 @@ const fs = require('fs');
 const ParserBuild = require('./parser');
 const states = new ParserBuild()
     .addCustomStates(
-        require('./example/exam/states')
+        require('./examples/exam/states')
     )
     .addPreParsers(
-        require('./example/exam/preParsers')
+        require('./examples/exam/preParsers')
     )
     .parse(
-        JSON.parse(fs.readFileSync('example/exam/exam.json', 'utf8'))
+        JSON.parse(fs.readFileSync('examples/exam/exam.json', 'utf8'))
     );
 const bot = buildBot(states);
 
