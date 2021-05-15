@@ -29,7 +29,7 @@ class State {
 
 * ChooseState - Similar in work as `switch` code
 * IfElse - Similar in work as `if else` code
-* MoveNextState - Displays the given text, no matter the input will call all prived actions
+* MoveNextState - Displays the given text, no matter the input will call all provided actions
 * WaitForActivationState - The starting state, bot will ignore all input until given phrase (like: "hi") will be given
 
 ### Actions
@@ -55,8 +55,8 @@ For simplicity the the action builders are store in the `actions.js` file. Those
 * `setState(state)` - Sets the given state as next one
 * `endConversation()` - Resets the Bot
 * `jumpToState(stateName)` - Sets the state from states list by its name
-* `remember(key, value)` - Saves the value in `memory` on priveded `key`
-* `rememberInputAs(key)` - Saves the input (user message, only text) in `memory` on priveded `key`
+* `remember(key, value)` - Saves the value in `memory` on provided `key`
+* `rememberInputAs(key)` - Saves the input (user message, only text) in `memory` on provided `key`
 * `increaseRemembered(key)` - Increase the value from `memory` on `key` by one (if value is not numeric, will be replace by 1)
 * `decreaseRemembered(key)` - Decrease the value from `memory` on `key` by one (if value is not numeric, will be replace by -1)
 
@@ -64,7 +64,7 @@ For simplicity the the action builders are store in the `actions.js` file. Those
 
 The Bot state machine can be loaded from [JSON](https://en.wikipedia.org/wiki/JSON) file. The file needs to be parsed first.
 
-The parser is provided by `ParserBuilder` object. You can create parser containing addintional states, actions or preparser actions.
+The parser is provided by `ParserBuilder` object. You can create parser containing additional states, actions or preparser actions.
 
 ```js
 const states = new ParserBuilder()
@@ -78,7 +78,7 @@ const states = new ParserBuilder()
 
 ### The input file
 
-The json file containe an array of objects. Each of it need to have two atributes: `type` and `name`.
+The json file contain an array of objects. Each of it need to have two attributes: `type` and `name`.
 
 ```json
 [
@@ -89,11 +89,11 @@ The json file containe an array of objects. Each of it need to have two atribute
 ]
 ```
 
-The parsing proces transform the file into the object, where key is name of state.
+The parsing process transform the file into the object, where key is name of state.
 
 ### Preparser
 
-The preparser are called before the parsing process, for given **pre-states**. To call them you need provide two atribute: `pre_parser` and `pre_states`.
+The preparser are called before the parsing process, for given **pre-states**. To call them you need provide two attribute: `pre_parser` and `pre_states`.
 
 ```json
 [
@@ -137,7 +137,7 @@ The example demonstrate own additional (the `SummaryState` class) state.
 
 A nonlinear exam conversation. The bot will ask few simple question but user can skip and returning to them letter. Bot will summaries the result on end.
 
-The example domestrate preparser.
+The example demonstrate preparser.
 
 ## Tests
 
