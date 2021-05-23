@@ -1,3 +1,5 @@
+.vscode
 .gitignore
 examples/
 test/
+index.js

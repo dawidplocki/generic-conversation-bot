@@ -2,7 +2,6 @@
   "name": "generic-conversation-bot",
   "version": "0.1.0",
   "description": "The simple conversion bot with ability to read conversation files",
-  "main": "index.js",
   "scripts": {
     "test": "mocha --recursive"
   },
