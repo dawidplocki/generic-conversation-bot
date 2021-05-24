@@ -1,5 +1,5 @@
 {
-  "name": "generic-conversation-bot",
+  "name": "@dplocki/generic-conversation-bot",
   "version": "0.1.0",
   "description": "The simple conversion bot with ability to read conversation files",
   "scripts": {
@@ -11,9 +11,16 @@
     "tree",
     "bot"
   ],
-  "author": "Dawid Płocki",
+  "author": {
+    "name": "Dawid Płocki",
+    "email": "dawid.plocki@gmail.com"
+  },
   "license": "ISC",
   "devDependencies": {
     "mocha": "^6.2.0"
+  },
+  "repository": "https://github.com/dplocki/generic-conversation-bot",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com/"
   }
 }
