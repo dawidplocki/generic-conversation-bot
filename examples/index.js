@@ -1,12 +1,12 @@
-const { buildBot } = require('./BotBuilder');
+const { buildBot } = require('../BotBuilder');
 const fs = require('fs');
-const ParserBuild = require('./parser');
+const ParserBuild = require('../parser');
 const states = new ParserBuild()
     .addCustomStates(
-        require('./examples/exam/states')
+        require('./exam/states')
     )
     .addPreParsers(
-        require('./examples/exam/preParsers')
+        require('./exam/preParsers')
     )
     .parse(
         JSON.parse(fs.readFileSync('examples/exam/exam.json', 'utf8'))
