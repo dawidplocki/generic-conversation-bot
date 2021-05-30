@@ -7,7 +7,7 @@ function assertMemoryResponse(response, key, expectedValue) {
     Assert.ok(response instanceof Object, "Incorrect response type");
     Assert.ok(response.memory instanceof Object, "Missing memory in the response");
     Assert.ok(response.memory.hasOwnProperty(key), "Memory has no requested key");
-    Assert.strictEqual(response.memory[key], expectedValue, "Memorised value is incorrect");
+    Assert.strictEqual(response.memory[key], expectedValue, "Memorized value is incorrect");
 }
 
 
@@ -30,7 +30,7 @@ describe('Action "Response"', function() {
         response(`{${testKey}} test_key {${testKey}} {${testKey}}`)(spyBot, message);
 
         // Assert
-        Assert.strictEqual(spyBot.response, expectedValue, "Message should be filled with memorised value");
+        Assert.strictEqual(spyBot.response, expectedValue, "Message should be filled with memorized value");
     });
 });
 

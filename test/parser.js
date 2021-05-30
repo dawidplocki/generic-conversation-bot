@@ -6,7 +6,7 @@ const { INIT_STATE } = require('../Bot.Consts');
 
 
 function assertStateMapCount(result, expectedStateCount) {
-    Assert.ok(!!result, "Result is undefinded");
+    Assert.ok(!!result, "Result is undefined");
     Assert.strictEqual(result.constructor, Object, "Result is not proper type");
     Assert.strictEqual(Object.keys(result).length, expectedStateCount, "Result haven't return correct number of states");
 }
@@ -112,7 +112,7 @@ describe('Action Parser', function() {
         Assert.ok(spy.hasBeenCalled, "Converted action is not endConversation");
     });
 
-    it('should parse action string with parameers into the action function', function () {
+    it('should parse action string with parameters into the action function', function () {
         // Assign and Act
         class Spy {
             constructor() {

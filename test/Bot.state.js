@@ -8,7 +8,7 @@ const { INIT_STATE } = require('../Bot.Consts');
 
 describe('Bot switching states', function() {
     const AStateText = 'Your are in A: Choose B or C';
-    const BStateText = 'Your are in B: Return to begining?';
+    const BStateText = 'Your are in B: Return to beginning?';
     const CStateText = 'Your are in C: Proceed?';
     const DStateText = 'Your are in D: This is ending state';
 
