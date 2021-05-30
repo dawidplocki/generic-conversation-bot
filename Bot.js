@@ -60,4 +60,4 @@ class Bot {
     }
 }
 
-exports = Bot;
+module.exports = Bot;

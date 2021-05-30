@@ -118,4 +118,4 @@ class ParserBuilder {
     }
 }
 
-exports = ParserBuilder;
+module.exports = ParserBuilder;

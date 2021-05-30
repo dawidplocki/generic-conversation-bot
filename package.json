@@ -1,6 +1,7 @@
 {
   "name": "@dplocki/generic-conversation-bot",
   "version": "0.1.0",
+  "main": "index.js",
   "description": "The simple conversion bot with ability to read conversation files",
   "scripts": {
     "test": "mocha --recursive"
@@ -15,7 +16,7 @@
     "name": "Dawid Płocki",
     "email": "dawid.plocki@gmail.com"
   },
-  "license": "ISC",
+  "license": "MIT",
   "devDependencies": {
     "mocha": "^6.2.0"
   },
