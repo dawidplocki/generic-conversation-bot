@@ -1,4 +1,4 @@
-const { INIT_STATE } = require('./Bot.Consts');
+const { INIT_STATE } = require('./constants');
 
 
 class Bot {

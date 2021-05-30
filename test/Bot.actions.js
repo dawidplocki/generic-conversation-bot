@@ -1,7 +1,7 @@
 const Assert = require('assert');
 const { buildBot } = require('../BotBuilder');
 const { setState } = require('../actions');
-const { INIT_STATE } = require('../Bot.Consts');
+const { INIT_STATE } = require('../constants');
 
 describe('Bot', function() {
 

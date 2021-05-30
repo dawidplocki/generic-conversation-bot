@@ -2,7 +2,7 @@ const Assert = require('assert');
 const WaitForActivationState = require('../states/WaitForActivationState');
 const ChooseState = require('../states/ChooseState');
 const ParserBuilder = require('../parser');
-const { INIT_STATE } = require('../Bot.Consts');
+const { INIT_STATE } = require('../constants');
 
 
 function assertStateMapCount(result, expectedStateCount) {

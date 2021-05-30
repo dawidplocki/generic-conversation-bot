@@ -4,7 +4,7 @@ const WaitForActivationState = require('../states/WaitForActivationState');
 const ChooseState = require('../states/ChooseState');
 const { jumpToState, endConversation } = require('../actions');
 const { assertBotResponse } = require('./utils');
-const { INIT_STATE } = require('../Bot.Consts');
+const { INIT_STATE } = require('../constants');
 
 describe('Bot switching states', function() {
     const AStateText = 'Your are in A: Choose B or C';

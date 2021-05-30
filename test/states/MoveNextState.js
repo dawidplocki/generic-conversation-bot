@@ -2,7 +2,7 @@ const { buildBot } = require('../../BotBuilder');
 const MoveNextState = require('../../states/MoveNextState');
 const { jumpToState, endConversation } = require('../../actions');
 const { assertBotResponse } = require('../utils');
-const { INIT_STATE } = require('../../Bot.Consts');
+const { INIT_STATE } = require('../../constants');
 
 describe('Move Next State', function() {
     it('should move to next state no matter the message', function() {

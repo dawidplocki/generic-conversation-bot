@@ -2,7 +2,7 @@ const { assertBotResponse } = require('../utils');
 const { buildBot } = require('../../BotBuilder');
 const ChooseState = require('../../states/ChooseState');
 const { response } = require('../../actions');
-const { INIT_STATE } = require('../../Bot.Consts');
+const { INIT_STATE } = require('../../constants');
 
 describe('Choose State', function() {
     function buildMorpheusBot() {
