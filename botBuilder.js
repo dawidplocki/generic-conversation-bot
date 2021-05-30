@@ -1,5 +1,5 @@
-const Simplifier = require('./Simplifier');
-const Bot = require('./Bot');
+const Simplifier = require('./simplifier');
+const Bot = require('./bot');
 
 
 exports.buildBot = function(stateMap) {

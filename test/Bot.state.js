@@ -1,7 +1,7 @@
 const Assert = require('assert');
-const { buildBot } = require('../BotBuilder');
-const WaitForActivationState = require('../states/WaitForActivationState');
-const ChooseState = require('../states/ChooseState');
+const { buildBot } = require('../botBuilder');
+const WaitForActivationState = require('../states/waitForActivationState');
+const ChooseState = require('../states/chooseState');
 const { jumpToState, endConversation } = require('../actions');
 const { assertBotResponse } = require('./utils');
 const { INIT_STATE } = require('../constants');

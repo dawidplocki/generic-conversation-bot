@@ -1,6 +1,6 @@
-const { buildBot } = require('../../BotBuilder');
-const MoveNextState = require('../../states/MoveNextState');
-const IfElseState = require('../../states/IfElseState');
+const { buildBot } = require('../../botBuilder');
+const MoveNextState = require('../../states/moveNextState');
+const IfElseState = require('../../states/ifElseState');
 const { jumpToState, response } = require('../../actions');
 const { assertBotResponse } = require('../utils');
 

@@ -1,4 +1,4 @@
-const { buildBot } = require('../../BotBuilder');
+const { buildBot } = require('../../botBuilder');
 const fs = require('fs');
 const ParserBuild = require('../../parser');
 const contents = JSON.parse(fs.readFileSync('conversation.json', 'utf8'));

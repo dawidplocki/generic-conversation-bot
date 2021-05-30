@@ -1,6 +1,6 @@
 const Assert = require('assert');
-const WaitForActivationState = require('../states/WaitForActivationState');
-const ChooseState = require('../states/ChooseState');
+const WaitForActivationState = require('../states/waitForActivationState');
+const ChooseState = require('../states/chooseState');
 const ParserBuilder = require('../parser');
 const { INIT_STATE } = require('../constants');
 

@@ -1,7 +1,7 @@
-const ChooseState = require('./states/ChooseState');
-const MoveNextState = require('./states/MoveNextState');
-const WaitForActivationState = require('./states/WaitForActivationState');
-const IfElseState = require('./states/IfElseState');
+const ChooseState = require('./states/chooseState');
+const MoveNextState = require('./states/moveNextState');
+const WaitForActivationState = require('./states/waitForActivationState');
+const IfElseState = require('./states/ifElseState');
 
 
 exports.choose = function({ initText, replays }) {

@@ -1,6 +1,6 @@
 const { assertBotResponse } = require('../utils');
-const { buildBot } = require('../../BotBuilder');
-const ChooseState = require('../../states/ChooseState');
+const { buildBot } = require('../../botBuilder');
+const ChooseState = require('../../states/chooseState');
 const { response } = require('../../actions');
 const { INIT_STATE } = require('../../constants');
 

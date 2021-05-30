@@ -1,7 +1,7 @@
-const { buildBot } = require('../../BotBuilder');
+const { buildBot } = require('../../botBuilder');
 const fs = require('fs');
 const ParserBuild = require('../../parser');
-const client = require('../BotClient');
+const client = require('../botClient');
 
 const states = new ParserBuild()
     .addCustomStates(
