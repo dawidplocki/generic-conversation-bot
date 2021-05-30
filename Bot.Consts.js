@@ -1,3 +1,3 @@
-module.exports = {
+exports = {
     INIT_STATE: 'start'
 };

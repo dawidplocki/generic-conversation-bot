@@ -29,4 +29,4 @@ class Simplifier {
     }
 }
 
-module.exports = Simplifier;
+exports = Simplifier;
