@@ -13,7 +13,7 @@ function response(response) {
 }
 
 
-function rememberInteralMechanism(message, key, value) {
+function rememberInternalMechanism(message, key, value) {
     if (!message.memory) {
         message.memory = {};
     }
@@ -44,17 +44,17 @@ module.exports.jumpToState = function(stateName) {
 };
 
 module.exports.remember = function(key, value) {
-    return (_, message) => rememberInteralMechanism(message, key, value);
+    return (_, message) => rememberInternalMechanism(message, key, value);
 };
 
 module.exports.rememberInputAs = function(key, transformFunction = null) {
     const transform = transformFunction ? transformFunction : (m => m.text);
 
-    return (_, message) => rememberInteralMechanism(message, key, transform(message));
+    return (_, message) => rememberInternalMechanism(message, key, transform(message));
 };
 
 module.exports.increaseRemembered = function(key) {
-    return (_, message) => rememberInteralMechanism(
+    return (_, message) => rememberInternalMechanism(
             message,
             key,
             message.memory && message.memory.hasOwnProperty(key)
@@ -64,7 +64,7 @@ module.exports.increaseRemembered = function(key) {
 }
 
 module.exports.decreaseRemembered = function(key) {
-    return (_, message) => rememberInteralMechanism(
+    return (_, message) => rememberInternalMechanism(
             message,
             key,
             message.memory && message.memory.hasOwnProperty(key)
