@@ -1,6 +1,6 @@
 const { buildBot } = require('../botBuilder');
 const fs = require('fs');
-const ParserBuild = require('../parser');
+const ParserBuild = require('../parserBuilder');
 const states = new ParserBuild()
     .addCustomStates(
         require('./exam/states')
