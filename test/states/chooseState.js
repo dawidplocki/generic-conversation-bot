@@ -1,5 +1,5 @@
 const { assertBotResponse } = require('../utils');
-const { buildBot } = require('../../botBuilder');
+const { buildBot } = require('../../index');
 const ChooseState = require('../../states/chooseState');
 const { response } = require('../../actions');
 const { INIT_STATE } = require('../../constants');

@@ -1,4 +1,4 @@
-const { buildBot } = require('../../botBuilder');
+const { buildBot } = require('../../index');
 const WaitForActivationState = require('../../states/waitForActivationState');
 const { response } = require('../../actions');
 const { assertBotResponse } = require('../utils');

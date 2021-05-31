@@ -1,4 +1,4 @@
-const { buildBot } = require('../../botBuilder');
+const { buildBot } = require('../../index');
 const MoveNextState = require('../../states/moveNextState');
 const IfElseState = require('../../states/ifElseState');
 const { jumpToState, response } = require('../../actions');
