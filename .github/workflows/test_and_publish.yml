@@ -1,0 +1,53 @@
+name: Run test and publish if new version
+
+on:
+  push:
+    branches:
+      master
+
+jobs:
+  run_tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Getting the sources"
+        uses: actions/checkout@v2
+
+      - name: "Setup"
+        run: npm install
+
+      - name: "Tests"
+        run: npm test
+
+  publish:
+    needs: run_tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: "Getting the sources"
+        uses: actions/checkout@v2
+
+      - name: "Setup"
+        run: npm install
+
+      - name: "Set up the NPM"
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16.x'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@dplocki'
+
+      - name: "Publish"
+        run: |
+          CURRENT_VERSION=`node -p 'require("./package.json").version'`
+          LATEST_PACKAGE=`npm info @dplocki/generic-conversation-bot version`
+
+          echo $CURRENT_VERSION $LATEST_PACKAGE
+
+          if [ "$CURRENT_VERSION" = "$LATEST_PACKAGE" ]; then
+            echo "Nothing to publish"
+          else
+            npm publish
+          fi
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
