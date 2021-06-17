@@ -1,6 +1,6 @@
 {
   "name": "@dplocki/generic-conversation-bot",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "main": "index.js",
   "description": "The simple conversion bot with ability to read conversation files",
   "scripts": {

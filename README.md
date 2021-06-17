@@ -4,6 +4,14 @@
 
 A simple conversation bot with ability of reading the dialogue scripts from  [JSON](https://en.wikipedia.org/wiki/JSON) files.
 
+## Installation
+
+The packages are publish on [Github NPM repository](https://npm.pkg.github.com).
+
+```sh
+npm install @dplocki/generic-conversation-bot
+```
+
 ## Internal architecture
 
 The bot (class `Bot`) is a state machine. The state contain the logic of reaction on received `message` (from user). The reaction is collection of `actions`. User input, provide also `memory` cache.
