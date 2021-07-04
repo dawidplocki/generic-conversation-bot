@@ -2,8 +2,8 @@ function labelToFunctionName(actionLabel) {
     return actionLabel
         .split('_')
         .map((current, index) => (index == 0)
-                ? current.toLowerCase()
-                : current.charAt(0).toUpperCase() + current.slice(1).toLowerCase())
+            ? current.toLowerCase()
+            : current.charAt(0).toUpperCase() + current.slice(1).toLowerCase())
         .join('');
 }
 
@@ -39,8 +39,8 @@ function parseParameters(parameter, actions) {
     return parameter;
 }
 
-function *preProcessing(states, preParsers) {
-    for(const state of states) {
+function* preProcessing(states, preParsers) {
+    for (const state of states) {
         if (state.hasOwnProperty('pre_parser')) {
             const preParserName = labelToFunctionName(state['pre_parser']);
 
@@ -93,8 +93,8 @@ class ParserBuilder {
         return this;
     }
 
-    addCustomActions(states) {
-        this.additionalActions = states;
+    addCustomActions(actions) {
+        this.additionalActions = actions;
 
         return this;
     }
@@ -111,10 +111,10 @@ class ParserBuilder {
 
         return parser(
             jsonStatesArray,
-                { ...originalStates, ...(this.additionalStates || {}) },
-                { ...originalActions, ...(this.additionalActions || {}) },
-                this.preParsers || {}
-            );
+            { ...originalStates, ...(this.additionalStates || {}) },
+            { ...originalActions, ...(this.additionalActions || {}) },
+            this.preParsers || {}
+        );
     }
 }
 
