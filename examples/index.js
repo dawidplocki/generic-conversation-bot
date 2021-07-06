@@ -9,7 +9,7 @@ const states = new ParserBuild()
         require('./exam/preParsers')
     )
     .parse(
-        JSON.parse(fs.readFileSync('examples/exam/exam.json', 'utf8'))
+        JSON.parse(fs.readFileSync('exam/exam.json', 'utf8'))
     );
 const bot = buildBot(states);
 
