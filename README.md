@@ -129,6 +129,10 @@ function preprocessor(state, index, allStates) {
 
 Both example bot can use `BitClient`. The function use the Node `readline` module for terminal usage.
 
+### Running examples
+
+All require [installation of package](#Installation).
+
 ### Simple
 
 A linear conversation. The bot will ask about name and use it back.
