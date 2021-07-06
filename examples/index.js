@@ -1,7 +1,6 @@
-const { buildBot } = require('../index');
-const fs = require('fs');
-const ParserBuild = require('../parserBuilder');
-const states = new ParserBuild()
+const { buildBot, ParserBuilder } = require('@dplocki/generic-conversation-bot');
+
+const states = new ParserBuilder()
     .addCustomStates(
         require('./exam/states')
     )
@@ -9,7 +8,7 @@ const states = new ParserBuild()
         require('./exam/preParsers')
     )
     .parse(
-        JSON.parse(fs.readFileSync('exam/exam.json', 'utf8'))
+        require('./exam/exam.json')
     );
 const bot = buildBot(states);
 

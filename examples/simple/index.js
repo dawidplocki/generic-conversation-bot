@@ -1,8 +1,6 @@
-const { buildBot } = require('../../index');
-const fs = require('fs');
-const ParserBuild = require('../../parser');
-const contents = JSON.parse(fs.readFileSync('conversation.json', 'utf8'));
-const bot = buildBot(new ParserBuild().parse(contents));
+const { buildBot, ParserBuilder } = require('@dplocki/generic-conversation-bot');
+
+const bot = buildBot(new ParserBuilder().parse(require('./conversation.json')));
 const client = require('../BotClient');
 
 console.log('This bot will be waiting for "hi"!');

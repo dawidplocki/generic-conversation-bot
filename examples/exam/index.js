@@ -1,18 +1,10 @@
-const { buildBot } = require('../../index');
-const fs = require('fs');
-const ParserBuild = require('../../parser');
-const client = require('../botClient');
+const { buildBot, ParserBuilder } = require('@dplocki/generic-conversation-bot');
+const client = require('../BotClient');
 
-const states = new ParserBuild()
-    .addCustomStates(
-        require('./states')
-    )
-    .addPreParsers(
-        require('./preParsers')
-    )
-    .parse(
-        JSON.parse(fs.readFileSync('exam.json', 'utf8'))
-    );
+const states = new ParserBuilder()
+    .addCustomStates(require('./states'))
+    .addPreParsers(require('./preParsers'))
+    .parse(require('./exam.json'));
 
 const bot = buildBot(states);
 
