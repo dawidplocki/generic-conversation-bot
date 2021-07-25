@@ -28,6 +28,10 @@ class Bot {
         return this.__response;
     }
 
+    get isReset() {
+        return this.state === this.__statesMap[INIT_STATE];
+    }
+
     jumpToState(stateLabel) {
         this.state = this.__statesMap[stateLabel];
     }

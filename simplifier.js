@@ -27,6 +27,10 @@ class Simplifier {
 
         return this.__message['response'];
     }
+
+    get isReset() {
+        return this.__bot.isReset;
+    }
 }
 
 module.exports = Simplifier;

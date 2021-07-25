@@ -48,12 +48,14 @@ describe('Bot switching states', function() {
         const bot = buildJumpingBot();
 
         Assert.ok(bot.state instanceof WaitForActivationState);
+        Assert.ok(bot.isReset);
     });
 
     it('should allow jump to next state', function() {
         const bot = buildJumpingBot();
 
         assertBotResponse(bot, 'hi', AStateText);
+        Assert.ok(!bot.isReset);
     });
 
     it('should allow multiple jumps', function() {
